@@ -4,274 +4,444 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#0b1a2e">
-<title>Narmada Education Companion</title>
-<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Noto+Sans+Devanagari:wght@300;400;600&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#0f0900">
+<title>ऋषि — Narmada Education Companion</title>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=Noto+Sans+Devanagari:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow:hidden;background:#0b1a2e;color:#e8d5a3;font-family:'Crimson Pro',Georgia,serif}
-::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:rgba(201,146,42,0.3);border-radius:2px}
-@keyframes riverFlow{0%{transform:translateX(-120%);opacity:0}20%{opacity:1}80%{opacity:0.5}100%{transform:translateX(120vw);opacity:0}}
-@keyframes pulse{0%,100%{transform:scale(1);opacity:0.4}50%{transform:scale(1.5);opacity:1}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-#app{display:flex;flex-direction:column;height:100vh;position:relative;overflow:hidden}
-.bg{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
-.river{position:absolute;left:0;height:1px;width:55vw;background:linear-gradient(90deg,transparent,rgba(201,146,42,0.1),transparent);animation:riverFlow 14s linear infinite}
-header{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.5rem;border-bottom:1px solid rgba(201,146,42,0.2);background:rgba(11,26,46,.97);position:relative;z-index:10;flex-shrink:0}
-.header-left{display:flex;align-items:center;gap:.9rem}
-.logo{font-family:'Tiro Devanagari Hindi',serif;font-size:1.9rem;color:#c9922a;line-height:1}
-.title{font-size:.95rem;font-weight:600;color:#e8d5a3}
-.subtitle{font-size:.52rem;color:rgba(201,146,42,.55);letter-spacing:.8px;text-transform:uppercase;margin-top:3px}
-.reset-btn{background:transparent;border:1px solid rgba(201,146,42,.4);color:#c9922a;padding:.35rem .9rem;border-radius:20px;cursor:pointer;font-family:'Noto Sans Devanagari',sans-serif;font-size:.78rem;display:none}
-main{flex:1;overflow:hidden;position:relative;z-index:1;display:flex;flex-direction:column}
-#welcome{flex:1;display:flex;flex-direction:column;align-items:center;padding:1.2rem 1rem;overflow-y:auto;gap:.75rem}
-#chat{flex:1;overflow-y:auto;padding:1.2rem 1.5rem;display:none;flex-direction:column;gap:1rem}
-.quote{font-family:'Crimson Pro',serif;font-style:italic;font-size:1.15rem;color:#c9922a;text-align:center;max-width:480px;line-height:1.5}
-.pills{display:flex;flex-wrap:wrap;gap:.35rem;justify-content:center;max-width:560px}
-.pill{font-size:.52rem;padding:.18rem .5rem;border-radius:20px;border:1px solid rgba(201,146,42,.25);color:rgba(201,146,42,.7);font-family:'Crimson Pro',serif;background:rgba(201,146,42,.06)}
-.filters{display:flex;flex-direction:column;gap:.45rem;width:100%;max-width:600px}
-.filter-row{display:flex;flex-wrap:wrap;gap:.35rem;justify-content:center}
-.filter-btn{background:rgba(255,255,255,.04);border:1px solid rgba(201,146,42,.2);color:rgba(232,213,163,.7);padding:.28rem .65rem;border-radius:20px;cursor:pointer;font-family:'Noto Sans Devanagari',sans-serif;font-size:.7rem;transition:all .2s}
-.filter-btn.active{background:rgba(201,146,42,.2);border-color:rgba(201,146,42,.6);color:#c9922a}
-.suggestions{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;width:100%;max-width:600px}
-.sugg-btn{background:rgba(255,255,255,.04);border:1px solid rgba(201,146,42,.18);color:#e8d5a3;padding:.6rem .8rem;border-radius:8px;cursor:pointer;text-align:left;font-family:'Noto Sans Devanagari',serif;font-size:.78rem;line-height:1.5;transition:background .2s;display:flex;flex-direction:column;gap:.25rem}
-.sugg-btn:hover{background:rgba(201,146,42,.15)}
-.sugg-subject{font-size:.52rem;color:#c9922a;text-transform:uppercase;font-family:'Crimson Pro',serif}
-.sugg-class{font-size:.52rem;color:rgba(232,213,163,.4)}
-.bubble{max-width:88%;animation:fadeUp .3s ease}
-.user-bubble{align-self:flex-end;background:rgba(201,146,42,.1);border:1px solid rgba(201,146,42,.22);border-radius:16px 16px 4px 16px;padding:.75rem 1rem;font-family:'Noto Sans Devanagari',serif;font-size:.9rem}
-.rishi-bubble{align-self:flex-start;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:4px 16px 16px 16px;padding:.75rem 1rem;max-width:92%}
-.rishi-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.35rem}
-.rishi-tag{font-family:'Tiro Devanagari Hindi',serif;font-size:.7rem;color:#c9922a;letter-spacing:1px}
-.copy-btn{background:transparent;border:1px solid rgba(201,146,42,.3);color:rgba(201,146,42,.7);padding:.18rem .55rem;border-radius:12px;cursor:pointer;font-size:.62rem;font-family:'Noto Sans Devanagari',sans-serif;transition:all .2s}
-.copy-btn.done{border-color:rgba(100,200,100,.5);color:rgba(100,200,100,.9)}
-.bubble-text{font-family:'Noto Sans Devanagari',serif;font-size:.88rem;color:#e8d5a3;white-space:pre-wrap;line-height:1.8}
-.dots{display:flex;gap:6px;align-items:center}
-.dot{width:7px;height:7px;border-radius:50%;background:#c9922a;display:inline-block;animation:pulse 1.2s ease-in-out infinite}
-.thinking{font-size:.72rem;color:rgba(232,213,163,.4);font-family:'Noto Sans Devanagari',sans-serif;margin-left:.5rem}
-.error-msg{align-self:center;color:#e07070;font-size:.82rem;padding:.5rem 1rem;background:rgba(220,50,50,.08);border-radius:8px;border:1px solid rgba(220,50,50,.2);text-align:center}
-.input-area{padding:1rem;border-top:2px solid rgba(201,146,42,0.4);background:rgba(11,26,46,.99);z-index:10;flex-shrink:0;box-shadow:0 -4px 20px rgba(0,0,0,0.4)}
-.input-row{display:flex;gap:.65rem;align-items:flex-end}
-textarea{flex:1;background:rgba(255,255,255,.08);border:1.5px solid rgba(201,146,42,.5);border-radius:12px;padding:.8rem 1rem;color:#e8d5a3;font-family:'Noto Sans Devanagari',serif;font-size:1rem;line-height:1.6;resize:none;outline:none}
-textarea:focus{border-color:rgba(201,146,42,.9);background:rgba(255,255,255,.1)}
-.send-btn{background:#c9922a;border:none;border-radius:12px;width:52px;height:52px;font-size:1.5rem;color:#0b1a2e;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:bold;box-shadow:0 2px 8px rgba(201,146,42,0.4)}
-.send-btn:disabled{opacity:.4}
-.footer-hint{margin-top:.45rem;font-size:.62rem;color:rgba(201,146,42,.3);text-align:center}
-@media(max-width:480px){.suggestions{grid-template-columns:1fr}}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0f0900;--surface:#1c1005;--surface2:#2a1a08;--border:#3d2810;
+  --gold:#d4962a;--gold-dim:rgba(212,150,42,0.15);--gold-line:rgba(212,150,42,0.3);
+  --cream:#f0ddb8;--muted:rgba(240,221,184,0.55);
+  --green:#4caf7d;--red:#e07070;--radius:10px;
+}
+html,body{height:100%;background:var(--bg);color:var(--cream);font-family:'DM Sans',sans-serif;overflow:hidden}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+#app{display:flex;flex-direction:column;height:100vh}
+
+/* TOPBAR */
+#topbar{display:flex;align-items:center;justify-content:space-between;padding:.65rem 1rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0;z-index:20}
+.logo-row{display:flex;align-items:center;gap:.6rem}
+.logo{font-family:'Tiro Devanagari Hindi',serif;font-size:1.6rem;color:var(--gold);line-height:1}
+.brand-title{font-size:.82rem;font-weight:600;color:var(--cream)}
+.brand-sub{font-size:.5rem;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin-top:1px}
+
+/* MAIN SCROLL */
+#main{flex:1;overflow-y:auto;padding:1rem 1rem 6rem}
+
+/* SECTION */
+.section{margin-bottom:1.25rem}
+.section-label{font-size:.58rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem;font-weight:500;display:flex;align-items:center;gap:.4rem}
+.section-label .done-badge{background:var(--green);color:#fff;font-size:.5rem;padding:.1rem .35rem;border-radius:10px;letter-spacing:.5px}
+.section-label .num{width:16px;height:16px;border-radius:50%;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.55rem;color:var(--muted);flex-shrink:0}
+.section-label .num.active{background:var(--gold);color:#1a0a00}
+
+/* HORIZONTAL SCROLL ROW */
+.hscroll{display:flex;gap:.5rem;overflow-x:auto;padding-bottom:.25rem;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.hscroll::-webkit-scrollbar{display:none}
+
+/* CHIP BUTTONS */
+.chip{flex-shrink:0;background:var(--surface);border:1px solid var(--border);color:var(--cream);padding:.45rem .85rem;border-radius:20px;cursor:pointer;font-size:.8rem;font-family:'Noto Sans Devanagari',sans-serif;white-space:nowrap;transition:all .2s}
+.chip:hover,.chip.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold)}
+.chip.board{font-size:.82rem;padding:.5rem 1.1rem;font-family:'DM Sans',sans-serif}
+
+/* CHAPTER LIST */
+.ch-list{display:flex;flex-direction:column;gap:.35rem;max-height:220px;overflow-y:auto}
+.ch-item{background:var(--surface);border:1px solid var(--border);color:var(--cream);padding:.55rem .85rem;border-radius:var(--radius);cursor:pointer;font-size:.78rem;font-family:'Noto Sans Devanagari',sans-serif;text-align:left;transition:all .2s;display:flex;justify-content:space-between;align-items:center}
+.ch-item:hover,.ch-item.active{background:var(--gold-dim);border-color:var(--gold);color:var(--gold)}
+.ch-num{font-size:.6rem;color:var(--muted);font-family:'DM Sans',sans-serif;flex-shrink:0;margin-left:.5rem}
+
+/* PHILOSOPHY CARDS */
+.phil-scroll{display:flex;gap:.6rem;overflow-x:auto;padding-bottom:.25rem;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.phil-scroll::-webkit-scrollbar{display:none}
+.phil-card{flex-shrink:0;width:150px;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);padding:.75rem;cursor:pointer;transition:all .2s;text-align:left}
+.phil-card:hover,.phil-card.active{border-color:var(--gold);background:var(--gold-dim)}
+.phil-tag{font-size:.52rem;letter-spacing:.8px;text-transform:uppercase;color:var(--gold);margin-bottom:.25rem;font-family:'DM Sans',sans-serif}
+.phil-name{font-family:'DM Serif Display',serif;font-size:.9rem;color:var(--cream);margin-bottom:.2rem}
+.phil-desc{font-size:.62rem;color:var(--muted);line-height:1.4;font-family:'DM Sans',sans-serif}
+
+/* LOCKED OVERLAY */
+.locked{opacity:.35;pointer-events:none}
+.locked-msg{font-size:.72rem;color:var(--muted);padding:.4rem 0;font-style:italic}
+
+/* GENERATE */
+#gen-bar{position:fixed;bottom:0;left:0;right:0;padding:.85rem 1rem;background:linear-gradient(to top, var(--bg) 70%, transparent);z-index:30}
+.gen-btn{width:100%;background:var(--gold);color:#1a0a00;border:none;padding:.85rem;border-radius:var(--radius);font-size:1rem;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.gen-btn:disabled{opacity:.3;cursor:default}
+.gen-btn:not(:disabled):hover{opacity:.9}
+.gen-summary{font-size:.65rem;color:var(--muted);text-align:center;margin-bottom:.4rem;min-height:1rem}
+
+/* PLAN OUTPUT PAGE */
+#plan-page{position:fixed;inset:0;background:var(--bg);z-index:50;display:none;flex-direction:column;overflow:hidden}
+#plan-page.show{display:flex}
+#plan-topbar{display:flex;align-items:center;justify-content:space-between;padding:.65rem 1rem;background:var(--surface);border-bottom:1px solid var(--border);flex-shrink:0}
+.plan-back{background:transparent;border:1px solid var(--border);color:var(--muted);padding:.35rem .85rem;border-radius:20px;cursor:pointer;font-size:.75rem;font-family:'DM Sans',sans-serif}
+.plan-title{font-size:.85rem;color:var(--cream);font-weight:600}
+.plan-copy{background:var(--gold);color:#1a0a00;border:none;padding:.35rem .85rem;border-radius:20px;cursor:pointer;font-size:.75rem;font-weight:600;font-family:'DM Sans',sans-serif}
+#plan-scroll{flex:1;overflow-y:auto;padding:0 0 2rem}
+#plan-content{background:#fff;color:#1a1a1a;font-family:'DM Sans',sans-serif;max-width:640px;margin:0 auto}
+
+/* PLAN STYLES */
+.ph{background:#1a1a1a;color:#fff;padding:1.1rem 1.25rem;text-align:center}
+.ph-title{font-family:'DM Serif Display',serif;font-size:1.3rem;text-transform:uppercase;letter-spacing:.8px}
+.ph-sub{font-size:.6rem;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;margin-top:.2rem}
+.pm{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:2px solid #1a1a1a}
+.pm2{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid #ddd}
+.pmi{padding:.55rem .75rem;border-right:1px solid #ddd;font-size:.73rem}
+.pmi:last-child{border-right:none}
+.pml{font-size:.55rem;text-transform:uppercase;letter-spacing:.7px;color:#888;margin-bottom:.2rem}
+.pmv{font-weight:600;color:#1a1a1a;font-size:.78rem}
+.ps{margin:.6rem .75rem;border:1px solid #ddd;border-radius:4px;overflow:hidden}
+.psh{background:#f5f5f5;padding:.45rem .7rem;font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:#444;border-bottom:1px solid #ddd}
+.psb{padding:.65rem .7rem;font-size:.78rem;line-height:1.7;color:#2a2a2a;white-space:pre-wrap}
+.ptable{width:calc(100% - 1.5rem);margin:.6rem .75rem;border-collapse:collapse;font-size:.75rem}
+.ptable th{background:#1a1a1a;color:#fff;padding:.45rem .55rem;text-align:left;font-size:.6rem;letter-spacing:.7px;text-transform:uppercase}
+.ptable td{padding:.45rem .55rem;border-bottom:1px solid #eee;vertical-align:top;line-height:1.5}
+.ptable tr:nth-child(even) td{background:#f9f9f9}
+.local-box{margin:.6rem .75rem;border:1px solid #d4962a;border-radius:4px;overflow:hidden}
+.local-box .psh{background:#fff8ee;color:#7a4f00;border-color:#d4962a}
+.local-box .psb{color:#5a3a00}
+.phil-badges{display:flex;flex-wrap:wrap;gap:.25rem;margin-top:.25rem}
+.pbadge{font-size:.55rem;padding:.1rem .4rem;border-radius:3px;background:#1a1a1a;color:#d4962a;font-weight:600;letter-spacing:.4px;text-transform:uppercase}
+.plan-actions-bar{display:flex;gap:.5rem;padding:.75rem;border-top:1px solid #ddd;background:#fff}
+.pab{flex:1;padding:.6rem;border-radius:6px;border:none;font-size:.8rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
+
+/* LOADING */
+.loading-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3rem;gap:1rem;background:#fff}
+.ldots{display:flex;gap:6px}
+.ld{width:8px;height:8px;border-radius:50%;background:#d4962a;animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+
+@media(max-width:360px){.phil-card{width:135px}}
 </style>
 </head>
 <body>
 <div id="app">
-  <div class="bg" id="bg"></div>
-  <header>
-    <div class="header-left">
+  <div id="topbar">
+    <div class="logo-row">
       <span class="logo">ऋषि</span>
       <div>
-        <div class="title">Narmada Education Companion</div>
-        <div class="subtitle">NCERT · MP Board · Totto-Chan · Summerhill · Hoshangabad · INRM · जीवन मूल्य</div>
+        <div class="brand-title">Narmada Education Companion</div>
+        <div class="brand-sub">NCERT · MP Board · Mrida Philosophy</div>
       </div>
     </div>
-    <button class="reset-btn" id="resetBtn" onclick="resetChat()">नया सवाल</button>
-  </header>
-  <main>
-    <div id="welcome">
-      <div class="quote">"प्रतिभा सार्वभौमिक है — अवसर नहीं।"</div>
-      <div class="pills" id="pills"></div>
-      <div class="filters">
-        <div class="filter-row" id="classFilters"></div>
-        <div class="filter-row" id="subjectFilters"></div>
+  </div>
+
+  <div id="main">
+
+    <!-- BOARD -->
+    <div class="section">
+      <div class="section-label"><span class="num active">1</span> Board / बोर्ड</div>
+      <div class="hscroll">
+        <button class="chip board" onclick="selectBoard('MP Board')">MP Board</button>
+        <button class="chip board" onclick="selectBoard('NCERT')">NCERT</button>
       </div>
-      <div class="suggestions" id="suggestions"></div>
     </div>
-    <div id="chat"></div>
-  </main>
-  <div class="input-area">
-    <div class="input-row">
-      <textarea id="inputBox" rows="2" placeholder="अपना सवाल यहाँ लिखें... जैसे: कक्षा 7 में अम्ल-क्षार का पाठ कैसे पढ़ाएं?"></textarea>
-      <button class="send-btn" id="sendBtn" onclick="sendMessage()">→</button>
+
+    <!-- CLASS -->
+    <div class="section" id="sec-class">
+      <div class="section-label"><span class="num" id="num-class">2</span> Class / कक्षा</div>
+      <div class="hscroll" id="class-row">
+        <span class="locked-msg">पहले Board चुनें</span>
+      </div>
     </div>
-    <div class="footer-hint">Enter भेजने के लिए · Shift+Enter नई लाइन के लिए</div>
+
+    <!-- SUBJECT -->
+    <div class="section" id="sec-subject">
+      <div class="section-label"><span class="num" id="num-subject">3</span> Subject / विषय</div>
+      <div class="hscroll" id="subject-row">
+        <span class="locked-msg">पहले कक्षा चुनें</span>
+      </div>
+    </div>
+
+    <!-- CHAPTER -->
+    <div class="section" id="sec-chapter">
+      <div class="section-label"><span class="num" id="num-chapter">4</span> Chapter / अध्याय</div>
+      <div class="ch-list" id="chapter-list">
+        <span class="locked-msg">पहले विषय चुनें</span>
+      </div>
+    </div>
+
+    <!-- PHILOSOPHY -->
+    <div class="section" id="sec-phil">
+      <div class="section-label"><span class="num" id="num-phil">5</span> Teaching Approach / शिक्षण दृष्टिकोण <span style="font-size:.55rem;color:var(--muted)">(एक या अधिक)</span></div>
+      <div class="phil-scroll" id="phil-row"></div>
+    </div>
+
+  </div>
+
+  <div id="gen-bar">
+    <div class="gen-summary" id="gen-summary"></div>
+    <button class="gen-btn" id="genBtn" disabled onclick="generatePlan()">✦ पाठ योजना बनाएं</button>
   </div>
 </div>
+
+<!-- PLAN PAGE -->
+<div id="plan-page">
+  <div id="plan-topbar">
+    <button class="plan-back" onclick="closePlan()">← वापस</button>
+    <div class="plan-title">पाठ योजना</div>
+    <button class="plan-copy" onclick="copyPlan()">📋 कॉपी</button>
+  </div>
+  <div id="plan-scroll">
+    <div id="plan-content"></div>
+  </div>
+</div>
+
 <script>
-var PROXY_URL = "https://rishi-proxy.vercel.app/api/proxy";
+var PROXY = "https://rishi-proxy.vercel.app/api/proxy";
+var state = {board:null, cls:null, subject:null, chapter:null, philosophies:[]};
 
-var CONSTITUTION = "ऋषि शैक्षिक संविधान: Summerhill (स्वतंत्रता), Totto-Chan (गरिमा), HSTP होशंगाबाद (जिज्ञासा), Paulo Freire (संवाद), Mrida (उत्कृष्टता बिना अभिजात्यवाद)। हर बच्चा सक्षम है। प्रतिभा सार्वभौमिक है। पहले अवलोकन, फिर समझाना। जिज्ञासा निर्देश से ऊपर। गरिमा आलोचना से ऊपर।";
+var SUBJECTS = {
+  "1":["हिंदी","गणित","EVS"],
+  "2":["हिंदी","गणित","EVS"],
+  "3":["हिंदी","गणित","EVS","अंग्रेज़ी"],
+  "4":["हिंदी","गणित","EVS","अंग्रेज़ी"],
+  "5":["हिंदी","गणित","EVS","अंग्रेज़ी"],
+  "6":["हिंदी","गणित","विज्ञान","सामाजिक विज्ञान","अंग्रेज़ी","संस्कृत"],
+  "7":["हिंदी","गणित","विज्ञान","सामाजिक विज्ञान","अंग्रेज़ी","संस्कृत"],
+  "8":["हिंदी","गणित","विज्ञान","सामाजिक विज्ञान","अंग्रेज़ी","संस्कृत"],
+  "9":["हिंदी","गणित","विज्ञान","सामाजिक विज्ञान","अंग्रेज़ी"],
+  "10":["हिंदी","गणित","विज्ञान","सामाजिक विज्ञान","अंग्रेज़ी"]
+};
 
-var NCERT = "NCERT/MP Board: कक्षा 1-2: रिमझिम, गणित का जादू, आस-पास। कक्षा 3-5: रिमझिम, EVS, Marigold। कक्षा 6-8: वसंत, विज्ञान (भोजन/अम्ल-क्षार/फसल), सामाजिक विज्ञान, Honeysuckle। कक्षा 9-10: क्षितिज, विज्ञान (गति/रासायनिक अभिक्रिया/अनुवांशिकता), Beehive। MP Board: नैतिक शिक्षा, कृषि, गृह विज्ञान।";
+var CHAPTERS = {
+  "1-हिंदी":["पाठ 1: झूला","पाठ 2: आम की कहानी","पाठ 3: आम की टोकरी","पाठ 4: पत्ते ही पत्ते","पाठ 5: पकौड़ी","पाठ 6: छुक-छुक गाड़ी","पाठ 7: रसोईघर","पाठ 8: चूहो! म्याऊँ सो रही है","पाठ 9: बंदर और गिलहरी","पाठ 10: पगड़ी"],
+  "1-गणित":["अध्याय 1: आकृतियाँ और स्थान","अध्याय 2: नंबर एक से नौ","अध्याय 3: जोड़","अध्याय 4: घटाव","अध्याय 5: दस और उससे आगे","अध्याय 6: बीस तक के नंबर","अध्याय 7: समय","अध्याय 8: बीस से ज़्यादा","अध्याय 9: माप-तौल","अध्याय 10: रुपए और पैसे"],
+  "1-EVS":["पाठ 1: मेरा घर","पाठ 2: मेरी पाठशाला","पाठ 3: परिवार","पाठ 4: खाना","पाठ 5: पेड़-पौधे","पाठ 6: पानी","पाठ 7: हवा"],
+  "2-हिंदी":["पाठ 1: ऊँट चला","पाठ 2: भालू ने खेली फुटबॉल","पाठ 3: म्याऊँ म्याऊँ","पाठ 4: अधूरा काम","पाठ 5: दोस्त की मदद","पाठ 6: बहुत हुआ","पाठ 7: मेरी किताब","पाठ 8: तितली और कली","पाठ 9: बुलबुल","पाठ 10: मेरी नानी"],
+  "2-गणित":["अध्याय 1: जोड़ और घटाव","अध्याय 2: लंबाई","अध्याय 3: वज़न","अध्याय 4: सौ तक के नंबर","अध्याय 5: समय","अध्याय 6: पैसे","अध्याय 7: गुणा","अध्याय 8: आकृतियाँ","अध्याय 9: पैटर्न"],
+  "2-EVS":["पाठ 1: फूल-पत्ते","पाठ 2: जानवर","पाठ 3: खेत-खलिहान","पाठ 4: पानी का सफर","पाठ 5: मौसम","पाठ 6: गाँव और शहर"],
+  "3-हिंदी":["पाठ 1: कक्कू","पाठ 2: शेखीबाज़ मक्खी","पाठ 3: चाँद वाली अम्मा","पाठ 4: मन करता है","पाठ 5: बहादुर बित्तो","पाठ 6: हमसे सब कहते","पाठ 7: टिपटिपवा","पाठ 8: बंदर बाँट","पाठ 9: अकेला","पाठ 10: क्योंकि"],
+  "3-गणित":["अध्याय 1: जहाँ-तहाँ संख्याएँ","अध्याय 2: मज़ेदार संख्याएँ","अध्याय 3: जोड़ना सीखो","अध्याय 4: घटाना सीखो","अध्याय 5: आकृतियाँ","अध्याय 6: गुणा","अध्याय 7: समय","अध्याय 8: तरह-तरह के खेत","अध्याय 9: पैसे"],
+  "3-EVS":["पाठ 1: डाल-डाल पर","पाठ 2: पौधे की कहानी","पाठ 3: पानी रे पानी","पाठ 4: हमारा खाना","पाठ 5: खाना कहाँ से आता है","पाठ 6: जानवरों की दुनिया","पाठ 7: मेरा परिवार","पाठ 8: सुरक्षा-सावधानी"],
+  "3-अंग्रेज़ी":["Unit 1: Good Morning","Unit 2: Magic Garden","Unit 3: Birds Talk","Unit 4: Our Classroom","Unit 5: Sea Song","Unit 6: Helping","Unit 7: Fun with Maths"],
+  "4-हिंदी":["पाठ 1: मन के भोले-भाले बादल","पाठ 2: जैसा सवाल वैसा जवाब","पाठ 3: किरमिच की गेंद","पाठ 4: पापा जब बच्चे थे","पाठ 5: दोस्त की पोशाक","पाठ 6: नाव बनाओ नाव बनाओ","पाठ 7: दान का हिसाब","पाठ 8: कौन","पाठ 9: स्वतंत्रता की ओर","पाठ 10: थप्प रोटी थप्प दाल"],
+  "4-गणित":["अध्याय 1: इमारतें और नक्शे","अध्याय 2: लंबा और छोटा","अध्याय 3: गुणा करने का तरीका","अध्याय 4: टिक-टिक-टिक","अध्याय 5: तरह-तरह के पैटर्न","अध्याय 6: बड़ी संख्याएँ","अध्याय 7: भाग","अध्याय 8: आधा और पूरा","अध्याय 9: गोल-गोल"],
+  "4-EVS":["पाठ 1: बीज, बाजार की यात्रा","पाठ 2: कान-कान सुनो","पाठ 3: सब का सफर","पाठ 4: नाना-नानी","पाठ 5: अनोखा खेत","पाठ 6: पानी और जंगल","पाठ 7: मकड़े का जाल","पाठ 8: बदलते परिवार"],
+  "4-अंग्रेज़ी":["Unit 1: Wake Up!","Unit 2: Noses","Unit 3: Run!","Unit 4: Why","Unit 5: Don't Be Afraid of the Dark","Unit 6: Hiawatha","Unit 7: A Watering Rhyme","Unit 8: Books"],
+  "5-हिंदी":["पाठ 1: राख की रस्सी","पाठ 2: फसलों के त्योहार","पाठ 3: खिलौनेवाला","पाठ 4: नन्हा फनकार","पाठ 5: जहाँ चाह वहाँ राह","पाठ 6: चिट्ठी का सफर","पाठ 7: डाकिए की कहानी","पाठ 8: वे दिन भी क्या दिन थे","पाठ 9: एक माँ की बेबसी","पाठ 10: एक दिन की बादशाहत"],
+  "5-गणित":["अध्याय 1: मछली उछली","अध्याय 2: आकृतियाँ और कोण","अध्याय 3: कितना-कितना लेंगे","अध्याय 4: हिस्से और पूरे","अध्याय 5: क्षेत्रफल और घेरा","अध्याय 6: क्या तुम बता सकते हो","अध्याय 7: नक्शा","अध्याय 8: दस हजार"],
+  "5-EVS":["पाठ 1: कैसे पहचाना चींटी ने दोस्त","पाठ 2: कहानी सपेरों की","पाठ 3: चखो पता लगाओ","पाठ 4: खाएँ आम बारहों महीने","पाठ 5: बीज, बीज, बीज","पाठ 6: पानी के प्रयोग","पाठ 7: डायरी","पाठ 8: खेल-खेल में"],
+  "5-अंग्रेज़ी":["Unit 1: Ice-cream Man","Unit 2: Wonderful Waste","Unit 3: Teamwork","Unit 4: Flying Together","Unit 5: My Elder Brother","Unit 6: Robinson Crusoe","Unit 7: The Lazy Frog","Unit 8: Nobody's Friend"],
+  "6-हिंदी":["पाठ 1: वह चिड़िया जो","पाठ 2: बचपन","पाठ 3: नादान दोस्त","पाठ 4: चाँद से थोड़ी-सी गप्पें","पाठ 5: अक्षरों का महत्व","पाठ 6: पार नज़र के","पाठ 7: साथी हाथ बढ़ाना","पाठ 8: ऐसे-ऐसे","पाठ 9: टिकट-अलबम","पाठ 10: झाँसी की रानी"],
+  "6-गणित":["अध्याय 1: संख्याओं की जानकारी","अध्याय 2: पूर्ण संख्याएँ","अध्याय 3: संख्याओं के साथ खेलना","अध्याय 4: ज्यामितीय अवधारणाएँ","अध्याय 5: प्रारंभिक आकार","अध्याय 6: पूर्णांक","अध्याय 7: भिन्न","अध्याय 8: दशमलव","अध्याय 9: आँकड़ों का प्रबंधन","अध्याय 10: क्षेत्रमिति","अध्याय 11: बीजगणित","अध्याय 12: अनुपात और समानुपात"],
+  "6-विज्ञान":["पाठ 1: भोजन: यह कहाँ से आता है?","पाठ 2: भोजन के घटक","पाठ 3: तंतु से वस्त्र तक","पाठ 4: वस्तुओं के समूह बनाना","पाठ 5: पदार्थों का पृथक्करण","पाठ 6: हमारे चारों ओर के परिवर्तन","पाठ 7: पौधों को जानिए","पाठ 8: शरीर में गति","पाठ 9: सजीव और उनका परिवेश","पाठ 10: गति एवं दूरियों का मापन","पाठ 11: प्रकाश-छायाएँ","पाठ 12: विद्युत तथा परिपथ","पाठ 13: चुंबकों द्वारा मनोरंजन","पाठ 14: जल","पाठ 15: वायु","पाठ 16: कचरा-संग्रहण"],
+  "6-सामाजिक विज्ञान":["पाठ 1: क्या, कब, कहाँ और कैसे?","पाठ 2: आरंभिक मानव की खोज","पाठ 3: भोजन: संग्रह से उत्पादन तक","पाठ 4: आरंभिक नगर","पाठ 5: क्या बताती हैं किताबें","पाठ 6: राज्य, राजा और गणराज्य","पाठ 7: नए प्रश्न नए विचार","पाठ 8: अशोक: एक अनोखा सम्राट","पाठ 9: खुशहाल गाँव और शहर","पाठ 10: व्यापारी, राजा और तीर्थयात्री","पाठ 11: नए साम्राज्य","पाठ 12: इमारतें, चित्र और किताबें"],
+  "6-अंग्रेज़ी":["Unit 1: Who Did Patrick's Homework","Unit 2: How the Dog Found a Master","Unit 3: Taro's Reward","Unit 4: An Indian-American Woman in Space","Unit 5: A Different Kind of School","Unit 6: Who I Am","Unit 7: Fair Play","Unit 8: A Game of Chance","Unit 9: Desert Animals","Unit 10: The Banyan Tree"],
+  "7-हिंदी":["पाठ 1: हम पंछी उन्मुक्त गगन के","पाठ 2: दादी माँ","पाठ 3: हिमालय की बेटियाँ","पाठ 4: कठपुतली","पाठ 5: मीठाईवाला","पाठ 6: रक्त और हमारा शरीर","पाठ 7: पापा खो गए","पाठ 8: शाम-एक किसान","पाठ 9: चिड़िया की बच्ची","पाठ 10: अपूर्व अनुभव"],
+  "7-गणित":["अध्याय 1: पूर्णांक","अध्याय 2: भिन्न एवं दशमलव","अध्याय 3: आँकड़ों का प्रबंधन","अध्याय 4: सरल समीकरण","अध्याय 5: रेखाएँ और कोण","अध्याय 6: त्रिभुज और उसके गुण","अध्याय 7: त्रिभुजों की सर्वांगसमता","अध्याय 8: राशियों की तुलना","अध्याय 9: परिमेय संख्याएँ","अध्याय 10: व्यावहारिक ज्यामिति","अध्याय 11: परिमाप और क्षेत्रफल","अध्याय 12: बीजीय व्यंजक","अध्याय 13: घातांक और घात","अध्याय 14: सममिति","अध्याय 15: ठोस आकारों का चित्रण"],
+  "7-विज्ञान":["पाठ 1: पादपों में पोषण","पाठ 2: प्राणियों में पोषण","पाठ 3: रेशों से वस्त्र तक","पाठ 4: ऊष्मा","पाठ 5: अम्ल, क्षारक और लवण","पाठ 6: भौतिक एवं रासायनिक परिवर्तन","पाठ 7: मौसम, जलवायु तथा अनुकूलन","पाठ 8: पवन, तूफान और चक्रवात","पाठ 9: मृदा","पाठ 10: जीवों में श्वसन","पाठ 11: जंतुओं और पादप में परिवहन","पाठ 12: पादप में जनन","पाठ 13: गति एवं समय","पाठ 14: विद्युत धारा और इसके प्रभाव","पाठ 15: प्रकाश","पाठ 16: जल: एक बहुमूल्य संसाधन","पाठ 17: वन: हमारी जीवन रेखा","पाठ 18: अपशिष्ट जल की कहानी"],
+  "7-सामाजिक विज्ञान":["पाठ 1: हजार वर्षों के परिवर्तन","पाठ 2: नए राजा और राज्य","पाठ 3: दिल्ली के सुलतान","पाठ 4: मुगल साम्राज्य","पाठ 5: शासक और इमारतें","पाठ 6: नगर, व्यापारी और शिल्पीजन","पाठ 7: जनजातियाँ और खानाबदोश","पाठ 8: ईश्वर से अनुराग","पाठ 9: क्षेत्रीय संस्कृतियाँ","पाठ 10: अठारहवीं शताब्दी में राजनीतिक गठन"],
+  "7-अंग्रेज़ी":["Unit 1: Three Questions","Unit 2: A Gift of Chappals","Unit 3: Gopal and the Hilsa Fish","Unit 4: The Ashes That Made Trees Bloom","Unit 5: Quality","Unit 6: Expert Detectives","Unit 7: The Invention of Vita-Wonk","Unit 8: Fire: Friend and Foe","Unit 9: A Bicycle in Good Repair","Unit 10: The Story of Cricket"],
+  "8-हिंदी":["पाठ 1: ध्वनि","पाठ 2: लाख की चूड़ियाँ","पाठ 3: बस की यात्रा","पाठ 4: दीवानों की हस्ती","पाठ 5: चिट्ठियों की अनूठी दुनिया","पाठ 6: भगवान के डाकिए","पाठ 7: क्या निराश हुआ जाए","पाठ 8: यह सबसे कठिन समय नहीं","पाठ 9: कबीर की साखियाँ","पाठ 10: कामचोर"],
+  "8-गणित":["अध्याय 1: परिमेय संख्याएँ","अध्याय 2: एक चर वाले रैखिक समीकरण","अध्याय 3: चतुर्भुजों को समझना","अध्याय 4: आँकड़ों का प्रबंधन","अध्याय 5: वर्गमूल और घनमूल","अध्याय 6: घन और घनमूल","अध्याय 7: राशियों की तुलना","अध्याय 8: बीजीय व्यंजक","अध्याय 9: क्षेत्रमिति","अध्याय 10: घातांक और घात","अध्याय 11: सीधा और प्रतिलोम समानुपात","अध्याय 12: गुणनखंडन","अध्याय 13: आलेखों से परिचय","अध्याय 14: संख्याओं के साथ खेलना"],
+  "8-विज्ञान":["पाठ 1: फसल उत्पादन और प्रबंधन","पाठ 2: सूक्ष्मजीव","पाठ 3: संश्लेषित रेशे और प्लास्टिक","पाठ 4: धातु और अधातु","पाठ 5: कोयला और पेट्रोलियम","पाठ 6: दहन और ज्वाला","पाठ 7: पौधों की संरचना","पाठ 8: कोशिका","पाठ 9: जंतुओं में जनन","पाठ 10: किशोरावस्था की ओर","पाठ 11: बल तथा दाब","पाठ 12: घर्षण","पाठ 13: ध्वनि","पाठ 14: विद्युत धारा के रासायनिक प्रभाव","पाठ 15: प्राकृतिक परिघटनाएँ","पाठ 16: प्रकाश","पाठ 17: तारे एवं सौर परिवार","पाठ 18: वायु तथा जल का प्रदूषण"],
+  "8-सामाजिक विज्ञान":["पाठ 1: कैसे, कब और कहाँ","पाठ 2: व्यापार से साम्राज्य तक","पाठ 3: ग्रामीण क्षेत्र पर शासन","पाठ 4: आदिवासी, दिकु और स्वर्ण युग","पाठ 5: जब जनता बगावत करती है","पाठ 6: बुनकर, लोहा बनाने वाले और फैक्ट्री मालिक","पाठ 7: देशी जनता को सभ्य बनाना","पाठ 8: महिलाएँ, जाति एवं सुधार","पाठ 9: राष्ट्रीय आंदोलन का संघटन","पाठ 10: स्वतंत्रता के बाद"],
+  "9-हिंदी":["पाठ 1: दो बैलों की कथा","पाठ 2: ल्हासा की ओर","पाठ 3: उपभोक्तावाद की संस्कृति","पाठ 4: साँवले सपनों की याद","पाठ 5: नाना साहब की पुत्री","पाठ 6: प्रेमचंद के फटे जूते","पाठ 7: मेरे बचपन के दिन","पाठ 8: एक कुत्ता और एक मैना","कविता 1: इस जल प्रलय में","कविता 2: मेघ आए"],
+  "9-गणित":["अध्याय 1: संख्या प्रणाली","अध्याय 2: बहुपद","अध्याय 3: निर्देशांक ज्यामिति","अध्याय 4: दो चर वाले रैखिक समीकरण","अध्याय 5: यूक्लिड की ज्यामिति","अध्याय 6: रेखाएँ और कोण","अध्याय 7: त्रिभुज","अध्याय 8: चतुर्भुज","अध्याय 9: समांतर चतुर्भुजों के क्षेत्रफल","अध्याय 10: वृत्त","अध्याय 11: रचनाएँ","अध्याय 12: हेरोन का सूत्र","अध्याय 13: पृष्ठीय क्षेत्रफल और आयतन","अध्याय 14: सांख्यिकी","अध्याय 15: प्रायिकता"],
+  "9-विज्ञान":["पाठ 1: हमारे आस-पास के पदार्थ","पाठ 2: क्या पदार्थ शुद्ध हैं","पाठ 3: परमाणु एवं अणु","पाठ 4: परमाणु की संरचना","पाठ 5: जीवन की मौलिक इकाई","पाठ 6: ऊतक","पाठ 7: जीवों में विविधता","पाठ 8: गति","पाठ 9: बल तथा गति के नियम","पाठ 10: गुरुत्वाकर्षण","पाठ 11: कार्य तथा ऊर्जा","पाठ 12: ध्वनि","पाठ 13: हम बीमार क्यों होते हैं","पाठ 14: प्राकृतिक संपदा","पाठ 15: खाद्य संसाधनों में सुधार"],
+  "9-सामाजिक विज्ञान":["पाठ 1: फ्रांसीसी क्रांति","पाठ 2: यूरोप में समाजवाद","पाठ 3: नात्सीवाद और हिटलर","पाठ 4: वन्य समाज एवं उपनिवेशवाद","पाठ 5: आधुनिक विश्व में चरवाहे","पाठ 6: किसान और काश्तकार","पाठ 7: भारत में मतदाता आंदोलन","पाठ 8: किसानों की आजीविका"],
+  "9-अंग्रेज़ी":["Unit 1: The Fun They Had","Unit 2: The Sound of Music","Unit 3: The Little Girl","Unit 4: A Truly Beautiful Mind","Unit 5: The Snake and the Mirror","Unit 6: My Childhood","Unit 7: Packing","Unit 8: Reach for the Top","Unit 9: The Bond of Love","Unit 10: Kathmandu"],
+  "10-हिंदी":["पाठ 1: सूरदास के पद","पाठ 2: राम-लक्ष्मण-परशुराम संवाद","पाठ 3: देव के सवैये","पाठ 4: आत्मकथ्य","पाठ 5: उत्साह / अट नहीं रही","पाठ 6: यह दंतुरित मुसकान","पाठ 7: संगतकार","गद्य 1: नेताजी का चश्मा","गद्य 2: बालगोबिन भगत","गद्य 3: लखनवी अंदाज़"],
+  "10-गणित":["अध्याय 1: वास्तविक संख्याएँ","अध्याय 2: बहुपद","अध्याय 3: दो चरों वाले रैखिक समीकरण","अध्याय 4: द्विघात समीकरण","अध्याय 5: समांतर श्रेढ़ियाँ","अध्याय 6: त्रिभुज","अध्याय 7: निर्देशांक ज्यामिति","अध्याय 8: त्रिकोणमिति","अध्याय 9: त्रिकोणमिति के अनुप्रयोग","अध्याय 10: वृत्त","अध्याय 11: रचनाएँ","अध्याय 12: वृत्तों से संबंधित क्षेत्रफल","अध्याय 13: पृष्ठीय क्षेत्रफल और आयतन","अध्याय 14: सांख्यिकी","अध्याय 15: प्रायिकता"],
+  "10-विज्ञान":["पाठ 1: रासायनिक अभिक्रियाएँ","पाठ 2: अम्ल, क्षारक एवं लवण","पाठ 3: धातु एवं अधातु","पाठ 4: कार्बन और उसके यौगिक","पाठ 5: तत्वों का आवर्त वर्गीकरण","पाठ 6: जैव प्रक्रम","पाठ 7: नियंत्रण एवं समन्वय","पाठ 8: जीव जनन कैसे करते हैं","पाठ 9: अनुवांशिकता एवं जैव विकास","पाठ 10: प्रकाश-परावर्तन एवं अपवर्तन","पाठ 11: मानव नेत्र","पाठ 12: विद्युत","पाठ 13: विद्युत धारा के चुंबकीय प्रभाव","पाठ 14: ऊर्जा के स्रोत","पाठ 15: हमारा पर्यावरण","पाठ 16: प्राकृतिक संसाधनों का प्रबंधन"],
+  "10-सामाजिक विज्ञान":["पाठ 1: यूरोप में राष्ट्रवाद का उदय","पाठ 2: भारत में राष्ट्रवाद","पाठ 3: भूमंडलीकृत विश्व","पाठ 4: औद्योगिक क्रांति","पाठ 5: मुद्रण संस्कृति","पाठ 6: संसाधन एवं विकास","पाठ 7: वन एवं वन्य जीव","पाठ 8: जल संसाधन","पाठ 9: कृषि","पाठ 10: खनिज तथा ऊर्जा संसाधन","पाठ 11: विनिर्माण उद्योग","पाठ 12: राष्ट्रीय अर्थव्यवस्था की जीवन रेखाएँ"],
+  "10-अंग्रेज़ी":["Unit 1: A Letter to God","Unit 2: Nelson Mandela","Unit 3: Two Stories about Flying","Unit 4: From the Diary of Anne Frank","Unit 5: Glimpses of India","Unit 6: Mijbil the Otter","Unit 7: Madam Rides the Bus","Unit 8: The Sermon at Benares","Unit 9: The Proposal","Unit 10: A Tiger in the Zoo"]
+};
 
-var INRM = "INRM (PRADAN): मिट्टी-पानी-वनस्पति प्रबंधन। तीन भूमि: upland, midland, lowland। तकनीकें: Staggered trenches, Gully plugs, मेड़बंदी, Water harvesting। गाँव का नक्शा, watershed। EVS जोड़ाव: कक्षा 3-5 मिट्टी/पानी, कक्षा 6-8 soil erosion/watershed, कक्षा 9-10 sustainable agriculture।";
-
-var JEEVAN = "जीवन मूल्य पाठ्यक्रम (कक्षा 1-5) — 8 सत्र: 1. तनाव — मन का बस्ता गतिविधि। 2. भावना पहचान — मौसम रूपक (सूरज/बादल/बारिश/इंद्रधनुष)। 3. तनाव कम करना — जादुई डिब्बा, एक-एक समस्या। 4. भावना व्यक्त करना — Emotion Role Play, mime। 5. गुस्सा — गुब्बारे वाला चिंटू, शारीरिक संकेत। 6. गुस्सा नियंत्रण — ट्रैफिक लाइट (लाल=रुको, पीला=सोचो, हरा=करो)। 7. असफलता — गिरती पतंग, गिरी मीनार गतिविधि। 8. दृढ़ता — चींटी का सफर, Yet activity। मूल्यांकन: Level 1=भावना नाम बताना, Level 2=परिस्थिति से जोड़ना, Level 3=सही प्रतिक्रिया चुनना। शिक्षक checklist: circle time भागीदारी, गुस्से के incidents, चुप बच्चों पर ध्यान।";
-
-var SYSTEM = "आप ऋषि हैं — नर्मदा घाटी के शिक्षकों के लिए शिक्षा साथी। " + CONSTITUTION + " " + NCERT + " " + INRM + " " + JEEVAN + " नियम: हमेशा हिंदी में। सरल भाषा। 300-400 शब्द। NCERT को स्थानीय जीवन से जोड़ें। जीवन मूल्य सत्रों के लिए कहानी+गतिविधि+मूल्यांकन rubric दें। कम संसाधन, ज़्यादा सोच।";
-
-var PILLS = ["Mrida","Totto-Chan","Summerhill","Paulo Freire","Hoshangabad (HSTP)","NCERT","MP Board","INRM","जीवन मूल्य / SEL"];
-var CLASSES = ["सभी कक्षाएँ","कक्षा 1-2","कक्षा 3-5","कक्षा 6-8","कक्षा 9-10"];
-var SUBJECTS = ["सभी विषय","गणित","विज्ञान","हिंदी भाषा","सामाजिक विज्ञान","अंग्रेज़ी","पर्यावरण (EVS)","INRM / प्रकृति","जीवन मूल्य / SEL","कला / रचनात्मकता"];
-var SUGGESTIONS = [
-  {s:"गणित",c:"कक्षा 3-5",t:"बाज़ार की कीमतों से भिन्न और दशमलव सिखाएं"},
-  {s:"गणित",c:"कक्षा 1-2",t:"खेत और बीज गिनने से गणित की शुरुआत"},
-  {s:"गणित",c:"कक्षा 6-8",t:"खेत की नापजोख से क्षेत्रफल और परिमाप सिखाएं"},
-  {s:"विज्ञान",c:"कक्षा 6-8",t:"मानसून और मिट्टी से विज्ञान का पाठ बनाएं"},
-  {s:"विज्ञान",c:"कक्षा 6-8",t:"नर्मदा नदी के पानी से अम्ल-क्षार का प्रयोग करें"},
-  {s:"विज्ञान",c:"कक्षा 9-10",t:"नर्मदा नदी से रासायनिक अभिक्रिया का उदाहरण"},
-  {s:"हिंदी भाषा",c:"कक्षा 3-5",t:"नर्मदा की कहानी से हिंदी व्याकरण सिखाएं"},
-  {s:"हिंदी भाषा",c:"कक्षा 6-8",t:"स्थानीय लोककथा से वसंत के पाठ जोड़ें"},
-  {s:"सामाजिक विज्ञान",c:"कक्षा 6-8",t:"आदिवासी समुदाय और इतिहास को जोड़ें"},
-  {s:"सामाजिक विज्ञान",c:"कक्षा 6-8",t:"नर्मदा घाटी का भूगोल — नक्शे और स्थानीय जानकारी से"},
-  {s:"अंग्रेज़ी",c:"कक्षा 6-8",t:"रोज़मर्रा की चीज़ों से अंग्रेज़ी शब्द सिखाएं"},
-  {s:"अंग्रेज़ी",c:"कक्षा 6-8",t:"Honeysuckle के पाठ को स्थानीय कहानी से जोड़ें"},
-  {s:"पर्यावरण (EVS)",c:"कक्षा 1-2",t:"जंगल की सैर से पौधों की दुनिया समझाएं"},
-  {s:"पर्यावरण (EVS)",c:"कक्षा 3-5",t:"पेड़ क्यों ज़रूरी हैं — जंगल से मिट्टी और पानी का रिश्ता"},
-  {s:"INRM / प्रकृति",c:"कक्षा 3-5",t:"मिट्टी के प्रकार — खेत से मिट्टी लाकर EVS में सिखाएं"},
-  {s:"INRM / प्रकृति",c:"कक्षा 3-5",t:"पानी का बहाव — ढलान और watershed बच्चों को समझाएं"},
-  {s:"INRM / प्रकृति",c:"कक्षा 6-8",t:"गाँव का watershed नक्शा बनाने की कक्षा गतिविधि"},
-  {s:"INRM / प्रकृति",c:"कक्षा 6-8",t:"मेड़बंदी और गुल्ली प्लग — soil erosion का प्रयोग करें"},
-  {s:"INRM / प्रकृति",c:"कक्षा 9-10",t:"watershed management को geography और environment से जोड़ें"},
-  {s:"जीवन मूल्य / SEL",c:"कक्षा 1-2",t:"तनाव क्या है — मन का बस्ता गतिविधि कैसे करें?"},
-  {s:"जीवन मूल्य / SEL",c:"कक्षा 1-2",t:"बच्चों को भावनाएं पहचानना सिखाएं — मौसम वाली गतिविधि"},
-  {s:"जीवन मूल्य / SEL",c:"कक्षा 3-5",t:"गुस्से को नियंत्रित करना — ट्रैफिक लाइट तकनीक कैसे सिखाएं?"},
-  {s:"जीवन मूल्य / SEL",c:"कक्षा 3-5",t:"असफलता से सीखना — गिरी हुई मीनार गतिविधि का पूरा plan"},
-  {s:"जीवन मूल्य / SEL",c:"कक्षा 3-5",t:"भावनाओं को व्यक्त करना — Emotion Role Play कैसे करें?"},
-  {s:"जीवन मूल्य / SEL",c:"सभी कक्षाएँ",t:"जीवन मूल्य पाठ्यक्रम का मूल्यांकन — Rubric और checklist"},
-  {s:"जीवन मूल्य / SEL",c:"कक्षा 3-5",t:"आत्मविश्वास बढ़ाना — Yet activity कैसे करें?"},
-  {s:"कला / रचनात्मकता",c:"सभी कक्षाएँ",t:"स्थानीय कला से रचनात्मक अभिव्यक्ति की गतिविधि"},
-  {s:"सभी विषय",c:"सभी कक्षाएँ",t:"शर्मीले बच्चे को बिना दबाव के भाग लेने में कैसे मदद करें?"},
-  {s:"सभी विषय",c:"सभी कक्षाएँ",t:"मिश्रित आयु के बच्चों के लिए एक साथ गतिविधि कैसे करें?"}
+var PHILS = [
+  {id:"totto",name:"Totto-Chan",tag:"गरिमा",desc:"हर बच्चा अनोखा है"},
+  {id:"summerhill",name:"Summerhill",tag:"स्वतंत्रता",desc:"बच्चे को चुनने दें"},
+  {id:"hstp",name:"Hoshangabad",tag:"जिज्ञासा",desc:"पहले प्रयोग, फिर किताब"},
+  {id:"freire",name:"Paulo Freire",tag:"संवाद",desc:"शिक्षा संवाद है"},
+  {id:"mrida",name:"Mrida",tag:"संदर्भ",desc:"नर्मदा घाटी से जोड़ें"},
+  {id:"hybrid",name:"सभी / Hybrid",tag:"संतुलन",desc:"सभी दृष्टिकोण मिलाएं"}
 ];
 
-var messages = [], activeClass = "सभी कक्षाएँ", activeSubject = "सभी विषय", loading = false;
+// BUILD PHILOSOPHY ROW
+var pr = document.getElementById('phil-row');
+PHILS.forEach(function(p){
+  var card = document.createElement('div');
+  card.className = 'phil-card';
+  card.id = 'phil-'+p.id;
+  card.innerHTML = '<div class="phil-tag">'+p.tag+'</div><div class="phil-name">'+p.name+'</div><div class="phil-desc">'+p.desc+'</div>';
+  card.onclick = function(){
+    if(p.id==='hybrid'){
+      state.philosophies = PHILS.filter(function(x){return x.id!=='hybrid'}).map(function(x){return x.id});
+      document.querySelectorAll('.phil-card').forEach(function(c){c.classList.add('active')});
+    } else {
+      var idx = state.philosophies.indexOf(p.id);
+      if(idx>-1){state.philosophies.splice(idx,1);card.classList.remove('active');}
+      else{state.philosophies.push(p.id);card.classList.add('active');}
+      document.getElementById('phil-hybrid') && document.getElementById('phil-hybrid').classList.remove('active');
+    }
+    updateGen();
+  };
+  pr.appendChild(card);
+});
 
-var bg = document.getElementById("bg");
-for(var i=0;i<5;i++){var r=document.createElement("div");r.className="river";r.style.top=(10+i*18)+"%";r.style.animationDelay=(i*1.1)+"s";bg.appendChild(r);}
-
-var pillsEl = document.getElementById("pills");
-PILLS.forEach(function(p){var s=document.createElement("span");s.className="pill";s.textContent=p;pillsEl.appendChild(s);});
-
-function buildFilters(){
-  var cf=document.getElementById("classFilters");
-  var sf=document.getElementById("subjectFilters");
-  cf.innerHTML="";sf.innerHTML="";
-  CLASSES.forEach(function(c){
-    var b=document.createElement("button");b.className="filter-btn"+(c===activeClass?" active":"");
-    b.textContent=c;b.onclick=function(){activeClass=c;buildFilters();buildSuggestions();};cf.appendChild(b);
-  });
-  SUBJECTS.forEach(function(s){
-    var b=document.createElement("button");b.className="filter-btn"+(s===activeSubject?" active":"");
-    b.textContent=s;b.onclick=function(){activeSubject=s;buildFilters();buildSuggestions();};sf.appendChild(b);
-  });
+function selectBoard(b){
+  state.board=b; state.cls=null; state.subject=null; state.chapter=null;
+  document.querySelectorAll('.chip.board').forEach(function(c){c.classList.remove('active')});
+  event.target.classList.add('active');
+  buildClasses();
+  updateGen();
 }
 
-function buildSuggestions(){
-  var el=document.getElementById("suggestions");el.innerHTML="";
-  var filtered=SUGGESTIONS.filter(function(s){
-    var sm=activeSubject==="सभी विषय"||s.s===activeSubject;
-    var cm=activeClass==="सभी कक्षाएँ"||s.c===activeClass||s.c==="सभी कक्षाएँ";
-    return sm&&cm;
-  });
-  var list=filtered.length>0?filtered:SUGGESTIONS;
-  list.forEach(function(s){
-    var b=document.createElement("button");b.className="sugg-btn";
-    b.innerHTML='<span class="sugg-subject">'+s.s+'</span><span class="sugg-class">'+s.c+'</span><span style="color:rgba(232,213,163,.82);font-size:.78rem">'+s.t+'</span>';
-    b.onclick=function(){sendMessage(s.t);};el.appendChild(b);
-  });
-}
-
-function showChat(){
-  document.getElementById("welcome").style.display="none";
-  var chat=document.getElementById("chat");
-  chat.style.display="flex";chat.style.flexDirection="column";
-  document.getElementById("resetBtn").style.display="block";
-}
-
-function resetChat(){
-  messages=[];
-  document.getElementById("chat").innerHTML="";
-  document.getElementById("welcome").style.display="flex";
-  document.getElementById("chat").style.display="none";
-  document.getElementById("resetBtn").style.display="none";
-}
-
-function addBubble(role,text){
-  var chat=document.getElementById("chat");
-  var wrap=document.createElement("div");
-  wrap.className="bubble "+(role==="user"?"user-bubble":"rishi-bubble");
-  if(role==="assistant"){
-    var enc=encodeURIComponent(text);
-    wrap.innerHTML='<div class="rishi-header"><span class="rishi-tag">ऋषि</span><button class="copy-btn" onclick="copyText(this,\''+enc+'\')">कॉपी करें</button></div><div class="bubble-text">'+text+'</div>';
-  } else {
-    wrap.innerHTML='<div class="bubble-text">'+text+'</div>';
+function buildClasses(){
+  var row = document.getElementById('class-row');
+  row.innerHTML = '';
+  document.getElementById('num-class').classList.add('active');
+  for(var i=1;i<=10;i++){
+    (function(cls){
+      var b = document.createElement('button');
+      b.className = 'chip';
+      b.textContent = 'कक्षा '+cls;
+      b.onclick = function(){
+        state.cls=cls; state.subject=null; state.chapter=null;
+        document.querySelectorAll('#class-row .chip').forEach(function(c){c.classList.remove('active')});
+        b.classList.add('active');
+        buildSubjects();
+        updateGen();
+      };
+      row.appendChild(b);
+    })(i);
   }
-  chat.appendChild(wrap);chat.scrollTop=chat.scrollHeight;
 }
 
-function addLoading(){
-  var chat=document.getElementById("chat");
-  var wrap=document.createElement("div");
-  wrap.className="bubble rishi-bubble";wrap.id="loadingBubble";
-  wrap.innerHTML='<div class="rishi-tag">ऋषि</div><div style="display:flex;align-items:center;margin-top:.35rem"><div class="dots"><span class="dot" style="animation-delay:0s"></span><span class="dot" style="animation-delay:.2s"></span><span class="dot" style="animation-delay:.4s"></span></div><span class="thinking">सोच रहा हूँ...</span></div>';
-  chat.appendChild(wrap);chat.scrollTop=chat.scrollHeight;
+function buildSubjects(){
+  var row = document.getElementById('subject-row');
+  row.innerHTML = '';
+  document.getElementById('num-subject').classList.add('active');
+  var subs = SUBJECTS[String(state.cls)] || [];
+  subs.forEach(function(s){
+    var b = document.createElement('button');
+    b.className = 'chip';
+    b.textContent = s;
+    b.onclick = function(){
+      state.subject=s; state.chapter=null;
+      document.querySelectorAll('#subject-row .chip').forEach(function(c){c.classList.remove('active')});
+      b.classList.add('active');
+      buildChapters();
+      updateGen();
+    };
+    row.appendChild(b);
+  });
 }
 
-function removeLoading(){var el=document.getElementById("loadingBubble");if(el)el.remove();}
-
-function copyText(btn,encoded){
-  var text=decodeURIComponent(encoded);
-  try{
-    var el=document.createElement("textarea");el.value=text;
-    el.style.cssText="position:fixed;top:0;left:0;opacity:0;pointer-events:none";
-    document.body.appendChild(el);el.focus();el.select();
-    document.execCommand("copy");document.body.removeChild(el);
-    btn.textContent="✓ कॉपी हो गया";btn.classList.add("done");
-    setTimeout(function(){btn.textContent="कॉपी करें";btn.classList.remove("done");},2000);
-  }catch(e){}
+function buildChapters(){
+  var list = document.getElementById('chapter-list');
+  list.innerHTML = '';
+  document.getElementById('num-chapter').classList.add('active');
+  var key = state.cls+'-'+state.subject;
+  var chs = CHAPTERS[key] || [];
+  if(!chs.length){
+    list.innerHTML = '<span class="locked-msg">अध्याय जल्द उपलब्ध होंगे</span>';
+    return;
+  }
+  chs.forEach(function(ch, i){
+    var b = document.createElement('button');
+    b.className = 'ch-item';
+    b.innerHTML = ch+'<span class="ch-num">'+(i+1)+'</span>';
+    b.onclick = function(){
+      state.chapter=ch;
+      document.querySelectorAll('.ch-item').forEach(function(c){c.classList.remove('active')});
+      b.classList.add('active');
+      updateGen();
+      // Scroll to philosophy
+      document.getElementById('sec-phil').scrollIntoView({behavior:'smooth', block:'start'});
+    };
+    list.appendChild(b);
+  });
 }
 
-function sendMessage(text){
-  var inputBox=document.getElementById("inputBox");
-  var userText=text||inputBox.value.trim();
-  if(!userText||loading)return;
-  inputBox.value="";loading=true;
-  document.getElementById("sendBtn").disabled=true;
-  showChat();
-  addBubble("user",userText);
-  messages.push({role:"user",content:userText});
-  addLoading();
-  fetch(PROXY_URL,{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({model:"claude-haiku-4-5-20251001",max_tokens:1500,system:SYSTEM,messages:messages})
+function updateGen(){
+  var btn = document.getElementById('genBtn');
+  var summary = document.getElementById('gen-summary');
+  var ready = state.board && state.cls && state.subject && state.chapter;
+  btn.disabled = !ready;
+  if(ready){
+    summary.textContent = state.board+' · कक्षा '+state.cls+' · '+state.subject+' · '+state.chapter.substring(0,30)+'...';
+  } else {
+    summary.textContent = '';
+  }
+}
+
+function generatePlan(){
+  document.getElementById('plan-page').classList.add('show');
+  var pc = document.getElementById('plan-content');
+  pc.innerHTML = '<div class="loading-wrap"><div class="ldots"><div class="ld" style="animation-delay:0s"></div><div class="ld" style="animation-delay:.2s"></div><div class="ld" style="animation-delay:.4s"></div></div><div style="font-size:.82rem;color:#888;margin-top:.5rem">ऋषि पाठ योजना बना रहा है...</div></div>';
+
+  var philNames = state.philosophies.length ?
+    state.philosophies.map(function(pid){var p=PHILS.find(function(x){return x.id===pid});return p?p.name:'';}).join(', ') :
+    'Mrida, Hoshangabad Science';
+
+  var prompt = 'Professional bilingual lesson plan banao. Respond ONLY in valid JSON, no extra text.\n\nकक्षा: '+state.cls+'\nBोर्ड: '+state.board+'\nविषय: '+state.subject+'\nअध्याय: '+state.chapter+'\nदृष्टिकोण: '+philNames+'\n\nNarmada Valley context MUST be included: Narmada river, Satpura forests, Gond/Baiga tribal community, local market (Hoshangabad/Harda), farming (paddy/wheat/maize), fishermen, teak forests, monsoon, watershed, INRM techniques.\n\nJSON format:\n{"objective_hi":"उद्देश्य 3 points numbered","objective_en":"Objectives 3 points numbered","materials":"local materials only","teaching_aids":"aids","intro":"2-3 sentences starting with local Narmada Valley story/observation","activities":[{"point":"teaching point","interaction":"teacher-student dialogue in Hindi","activity":"hands-on activity"}],"recapitulation":"recap activity","assessment":"assessment method","followup":"homework connecting to local life","local_example":"specific Narmada Valley example for this chapter topic"}';
+
+  fetch(PROXY, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:2000,messages:[{role:'user',content:prompt}]})
   })
   .then(function(r){return r.json();})
   .then(function(data){
-    removeLoading();loading=false;
-    document.getElementById("sendBtn").disabled=false;
     if(data.content&&data.content[0]&&data.content[0].text){
-      var reply=data.content[0].text;
-      messages.push({role:"assistant",content:reply});
-      addBubble("assistant",reply);
-    } else {showError();}
+      try{
+        var text=data.content[0].text.replace(/```json|```/g,'').trim();
+        var plan=JSON.parse(text);
+        renderPlan(plan);
+      }catch(e){renderRaw(data.content[0].text);}
+    }else{pc.innerHTML='<div style="padding:2rem;color:#e07070;text-align:center">कुछ गड़बड़ हुई। वापस जाएं और दोबारा कोशिश करें।</div>';}
   })
-  .catch(function(){
-    removeLoading();loading=false;
-    document.getElementById("sendBtn").disabled=false;
-    showError();
-  });
+  .catch(function(){pc.innerHTML='<div style="padding:2rem;color:#e07070;text-align:center">कुछ गड़बड़ हुई।</div>';});
 }
 
-function showError(){
-  var chat=document.getElementById("chat");
-  var e=document.createElement("div");e.className="error-msg";
-  e.textContent="कुछ गड़बड़ हुई। कृपया दोबारा कोशिश करें।";
-  chat.appendChild(e);chat.scrollTop=chat.scrollHeight;
+function renderPlan(p){
+  var philBadges = (state.philosophies.length ? state.philosophies : ['mrida','hstp']).map(function(pid){
+    var ph=PHILS.find(function(x){return x.id===pid});
+    return ph?'<span class="pbadge">'+ph.name+'</span>':'';
+  }).join('');
+
+  var rows = '';
+  if(p.activities&&p.activities.length){
+    p.activities.forEach(function(a){
+      rows+='<tr><td><strong>'+a.point+'</strong></td><td>'+a.interaction+'</td><td>'+a.activity+'</td></tr>';
+    });
+  }
+
+  document.getElementById('plan-content').innerHTML =
+    '<div class="ph"><div class="ph-title">'+state.subject+' — पाठ योजना / Lesson Plan</div><div class="ph-sub">Narmada Education Companion · ऋषि</div></div>'
+    +'<div class="pm"><div class="pmi"><div class="pml">Class / कक्षा</div><div class="pmv">'+state.cls+'</div></div><div class="pmi"><div class="pml">Board</div><div class="pmv">'+state.board+'</div></div><div class="pmi"><div class="pml">Date / दिनांक</div><div class="pmv">'+new Date().toLocaleDateString('hi-IN')+'</div></div></div>'
+    +'<div class="pm2"><div class="pmi" style="grid-column:1/-1"><div class="pml">Chapter / अध्याय</div><div class="pmv">'+state.chapter+'</div></div></div>'
+    +'<div class="pm2"><div class="pmi" style="grid-column:1/-1"><div class="pml">Approach / दृष्टिकोण</div><div class="phil-badges">'+philBadges+'</div></div></div>'
+    +'<div class="ps"><div class="psh">Learning Objectives / सीखने के उद्देश्य</div><div class="psb">'+p.objective_hi+'\n\n'+p.objective_en+'</div></div>'
+    +'<div class="pm2"><div class="pmi"><div class="pml">Teaching Aids</div><div class="pmv" style="font-weight:400;font-size:.72rem">'+p.teaching_aids+'</div></div><div class="pmi"><div class="pml">Materials / सामग्री</div><div class="pmv" style="font-weight:400;font-size:.72rem">'+p.materials+'</div></div></div>'
+    +'<div class="ps"><div class="psh">Introduction / प्रारंभ</div><div class="psb">'+p.intro+'</div></div>'
+    +'<table class="ptable"><tr><th>Teaching Point</th><th>Student-Teacher Interaction</th><th>Activity</th></tr>'+rows+'</table>'
+    +'<div class="ps"><div class="psh">Recapitulation / पुनरावृत्ति</div><div class="psb">'+p.recapitulation+'</div></div>'
+    +'<div class="pm2"><div class="pmi"><div class="pml">Assessment / मूल्यांकन</div><div class="pmv" style="font-weight:400;font-size:.72rem">'+p.assessment+'</div></div><div class="pmi"><div class="pml">Follow Up / गृहकार्य</div><div class="pmv" style="font-weight:400;font-size:.72rem">'+p.followup+'</div></div></div>'
+    +'<div class="local-box"><div class="psh">🌊 नर्मदा घाटी — Local Context</div><div class="psb">'+p.local_example+'</div></div>'
+    +'<div class="plan-actions-bar"><button class="pab" style="background:#1a1a1a;color:#fff" onclick="copyPlan()">📋 कॉपी करें</button><button class="pab" style="background:#d4962a;color:#1a0a00" onclick="closePlan()">✦ नई योजना</button></div>';
 }
 
-document.getElementById("inputBox").addEventListener("keydown",function(e){
-  if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();sendMessage();}
-});
+function renderRaw(text){
+  document.getElementById('plan-content').innerHTML='<div style="padding:1rem;font-size:.82rem;line-height:1.7;color:#333">'+text+'</div><div class="plan-actions-bar"><button class="pab" style="background:#d4962a;color:#1a0a00" onclick="closePlan()">← वापस</button></div>';
+}
 
-buildFilters();buildSuggestions();
+function closePlan(){document.getElementById('plan-page').classList.remove('show');}
+
+function copyPlan(){
+  var el=document.createElement('textarea');
+  el.value=document.getElementById('plan-content').innerText;
+  el.style.cssText='position:fixed;top:0;left:0;opacity:0';
+  document.body.appendChild(el);el.focus();el.select();
+  document.execCommand('copy');document.body.removeChild(el);
+  var btn = event.target;
+  btn.textContent='✓ कॉपी हो गया';
+  setTimeout(function(){btn.textContent='📋 कॉपी करें';},2000);
+}
 </script>
 </body>
 </html>
