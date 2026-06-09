@@ -50,11 +50,11 @@ main{flex:1;overflow:hidden;position:relative;z-index:1;display:flex;flex-direct
 .dot{width:7px;height:7px;border-radius:50%;background:#c9922a;display:inline-block;animation:pulse 1.2s ease-in-out infinite}
 .thinking{font-size:.72rem;color:rgba(232,213,163,.4);font-family:'Noto Sans Devanagari',sans-serif;margin-left:.5rem}
 .error-msg{align-self:center;color:#e07070;font-size:.82rem;padding:.5rem 1rem;background:rgba(220,50,50,.08);border-radius:8px;border:1px solid rgba(220,50,50,.2);text-align:center}
-.input-area{padding:.9rem 1.5rem;border-top:1px solid rgba(201,146,42,.15);background:rgba(11,26,46,.97);z-index:10;flex-shrink:0}
+.input-area{padding:1rem 1rem;border-top:2px solid rgba(201,146,42,0.4);background:rgba(11,26,46,.99);z-index:10;flex-shrink:0;box-shadow:0 -4px 20px rgba(0,0,0,0.4)}
 .input-row{display:flex;gap:.65rem;align-items:flex-end}
-textarea{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(201,146,42,.22);border-radius:10px;padding:.7rem 1rem;color:#e8d5a3;font-family:'Noto Sans Devanagari',serif;font-size:.9rem;line-height:1.6;resize:none;outline:none}
-textarea:focus{border-color:rgba(201,146,42,.5)}
-.send-btn{background:#c9922a;border:none;border-radius:10px;width:46px;height:46px;font-size:1.3rem;color:#0b1a2e;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:bold}
+textarea{flex:1;background:rgba(255,255,255,.08);border:1.5px solid rgba(201,146,42,.5);border-radius:12px;padding:.8rem 1rem;color:#e8d5a3;font-family:'Noto Sans Devanagari',serif;font-size:1rem;line-height:1.6;resize:none;outline:none}
+textarea:focus{border-color:rgba(201,146,42,.9);background:rgba(255,255,255,.1)}
+.send-btn{background:#c9922a;border:none;border-radius:12px;width:52px;height:52px;font-size:1.5rem;color:#0b1a2e;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:bold;box-shadow:0 2px 8px rgba(201,146,42,0.4)}
 .send-btn:disabled{opacity:.4}
 .footer-hint{margin-top:.45rem;font-size:.62rem;color:rgba(201,146,42,.3);text-align:center}
 @media(max-width:480px){.suggestions{grid-template-columns:1fr}}
@@ -68,7 +68,7 @@ textarea:focus{border-color:rgba(201,146,42,.5)}
       <span class="logo">ऋषि</span>
       <div>
         <div class="title">Narmada Education Companion</div>
-        <div class="subtitle">NCERT · MP Board · Totto-Chan · Summerhill · Hoshangabad · INRM</div>
+        <div class="subtitle">NCERT · MP Board · Totto-Chan · Summerhill · Hoshangabad · INRM · जीवन मूल्य</div>
       </div>
     </div>
     <button class="reset-btn" id="resetBtn" onclick="resetChat()">नया सवाल</button>
@@ -100,13 +100,14 @@ var CONSTITUTION = "ऋषि शैक्षिक संविधान — �
 
 var NCERT = "NCERT और MP Board पाठ्यक्रम:\n\nकक्षा 1-2: भाषा (रिमझिम), गणित (गणित का जादू), पर्यावरण अध्ययन (आस-पास)\nकक्षा 3-5: हिंदी (रिमझिम), गणित (गणित का जादू), EVS (आस-पास), अंग्रेज़ी (Marigold)\nकक्षा 6-8: हिंदी (वसंत/दूर्वा), गणित, विज्ञान, सामाजिक विज्ञान (इतिहास/भूगोल/नागरिक शास्त्र), अंग्रेज़ी (Honeysuckle/It So Happened)\nकक्षा 9-10: हिंदी (क्षितिज/कृतिका), गणित, विज्ञान (भौतिकी/रसायन/जीवविज्ञान), सामाजिक विज्ञान, अंग्रेज़ी (Beehive/Moments)\nMP Board विशेष (कक्षा 6-10): नैतिक शिक्षा, कृषि, गृह विज्ञान, व्यावसायिक शिक्षा\n\nमहत्वपूर्ण अध्याय:\nकक्षा 3 EVS: पौधों की दुनिया, पानी, परिवार\nकक्षा 4-5 गणित: भिन्न, दशमलव, माप, आकृतियाँ\nकक्षा 6 विज्ञान: भोजन, सजीव-निर्जीव, पृथक्करण\nकक्षा 7 विज्ञान: ताप, अम्ल-क्षार, मौसम\nकक्षा 8 विज्ञान: फसल उत्पादन, सूक्ष्मजीव, बल\nकक्षा 9 विज्ञान: गति, परमाणु, जीवन की मूल इकाई\nकक्षा 10 विज्ञान: रासायनिक अभिक्रिया, अनुवांशिकता, प्रकाश";
 
-var INRM = "INRM (Integrated Natural Resource Management) — PRADAN पद्धति:\n\nमूल अवधारणाएँ:\n- मिट्टी, पानी और वनस्पति का एकीकृत प्रबंधन — watershed सीमाओं के भीतर\n- तीन भूमि प्रकार: upland (ऊपरी भूमि), midland (मध्य भूमि), lowland (निचली भूमि / धान के खेत)\n- संसाधन क्षरण के कारण: वनों की कटाई, अत्यधिक चराई, अनुचित खेती, मिट्टी का कटाव\n\nINRM तकनीकें (कक्षा में उदाहरण के रूप में):\n- Staggered trenches (क्रमबद्ध खाइयाँ): पहाड़ी ढलानों पर पानी रोकना, मिट्टी बचाना\n- Gully plugs (नाली बंधान): छोटी नालियों में पत्थर/मिट्टी से बाँध\n- Field bunding (मेड़बंदी): खेतों के चारों ओर मेड़ — पानी और मिट्टी दोनों रोकना\n- Water harvesting tanks (जल संचयन तालाब): बारिश का पानी इकट्ठा करना\n\nParticipatory planning:\n- गाँव का नक्शा बनाना — कौन सी ज़मीन किसकी, कहाँ पानी जाता है\n- समस्या पहचानना → विकल्प सोचना → ग्राम सभा में तय करना\n\nEVS/विज्ञान से जोड़ाव:\n- कक्षा 3-5: मिट्टी के प्रकार, पानी का बहाव, पेड़ क्यों ज़रूरी हैं\n- कक्षा 6-8: watershed क्या होता है, soil erosion, जल चक्र, वन और जलवायु\n- कक्षा 9-10: natural resource management, sustainable agriculture, ecosystem";
+var JEEVAN_MULYA = "जीवन मूल्य पाठ्यक्रम (कक्षा 1-5) — भावनात्मक विकास:\n\nसत्र और विषय:\n1. तनाव को समझना — भारी बस्ते की कहानी। मन का बस्ता गतिविधि — चिंताएं पर्ची पर लिखकर डिब्बे में डालना।\n2. भावनाओं को पहचानना — चार मौसम वाला मोहन। आज मेरा मन किस मौसम जैसा है — सूरज/बादल/बारिश/इंद्रधनुष।\n3. तनाव कम करने के तरीके — रवि का जादुई डिब्बा। समस्याओं को छोटे टुकड़ों में बांटना।\n4. भावनाओं को सही तरीके से व्यक्त करना — रिया की चुप्पी। Emotion Role Play — mime और संवाद।\n5. गुस्सा क्या है — गुब्बारे वाला चिंटू। गुस्से के शारीरिक संकेत पहचानना।\n6. गुस्से को नियंत्रित करना — ट्रैफिक लाइट तकनीक। लाल=रुको, पीला=सोचो, हरा=सही काम करो।\n7. असफलता से सीखना — गिरती हुई पतंग। गिरी हुई मीनार गतिविधि।\n8. दृढ़ता और आत्मविश्वास — चींटी का सफर। 'अभी नहीं' (Yet) activity — नकारात्मक वाक्यों में 'अभी' जोड़ना।\n\nमूल्यांकन (Evaluation) — तीन स्तर:\nस्तर 1 — अवलोकन आधारित (कक्षा 1-3):\n- क्या बच्चा ट्रैफिक लाइट भाषा खुद इस्तेमाल करता है?\n- क्या बच्चा मौसम के रूपक से भावना बताता है?\n- क्या शर्मीले बच्चे circle time में ज़्यादा भाग ले रहे हैं?\n- क्या बच्चा गुस्से में पहले रुकता है?\n\nस्तर 2 — पोर्टफोलियो आधारित (कक्षा 3-5):\n- मन का बस्ता पर्चियां — एक term में बदलाव देखें\n- Emotion Role Play के चित्र — भावना शब्दावली बढ़ी या नहीं\n- जादुई डिब्बे की पर्चियां — क्या समस्याएं छोटी हो रही हैं?\n\nस्तर 3 — शिक्षक checklist (साप्ताहिक):\n- कितने बच्चों ने circle time में स्वेच्छा से share किया?\n- गुस्से के incidents में बदलाव?\n- कौन से बच्चे अभी भी चुप हैं — उन पर विशेष ध्यान\n\nतीन स्तरीय rubric:\n- Level 1: बच्चा भावना का नाम बता सकता है\n- Level 2: बच्चा भावना को परिस्थिति से जोड़ सकता है\n- Level 3: बच्चा सही प्रतिक्रिया चुन सकता है (ट्रैफिक लाइट)";
+"INRM (Integrated Natural Resource Management) — PRADAN पद्धति:\n\nमूल अवधारणाएँ:\n- मिट्टी, पानी और वनस्पति का एकीकृत प्रबंधन — watershed सीमाओं के भीतर\n- तीन भूमि प्रकार: upland (ऊपरी भूमि), midland (मध्य भूमि), lowland (निचली भूमि / धान के खेत)\n- संसाधन क्षरण के कारण: वनों की कटाई, अत्यधिक चराई, अनुचित खेती, मिट्टी का कटाव\n\nINRM तकनीकें (कक्षा में उदाहरण के रूप में):\n- Staggered trenches (क्रमबद्ध खाइयाँ): पहाड़ी ढलानों पर पानी रोकना, मिट्टी बचाना\n- Gully plugs (नाली बंधान): छोटी नालियों में पत्थर/मिट्टी से बाँध\n- Field bunding (मेड़बंदी): खेतों के चारों ओर मेड़ — पानी और मिट्टी दोनों रोकना\n- Water harvesting tanks (जल संचयन तालाब): बारिश का पानी इकट्ठा करना\n\nParticipatory planning:\n- गाँव का नक्शा बनाना — कौन सी ज़मीन किसकी, कहाँ पानी जाता है\n- समस्या पहचानना → विकल्प सोचना → ग्राम सभा में तय करना\n\nEVS/विज्ञान से जोड़ाव:\n- कक्षा 3-5: मिट्टी के प्रकार, पानी का बहाव, पेड़ क्यों ज़रूरी हैं\n- कक्षा 6-8: watershed क्या होता है, soil erosion, जल चक्र, वन और जलवायु\n- कक्षा 9-10: natural resource management, sustainable agriculture, ecosystem";
 
-var SYSTEM = "आप ऋषि हैं — नर्मदा घाटी के शिक्षकों के लिए एक शिक्षा साथी (Narmada Education Companion)। आप मृदा/ऋषि शैक्षिक दर्शन और PRADAN के INRM ज्ञान पर आधारित पाठ योजनाएँ और गतिविधियाँ बनाने में मदद करते हैं।\n\n" + CONSTITUTION + "\n\n" + NCERT + "\n\n" + INRM + "\n\nभाषा नियम (अनिवार्य): हमेशा हिंदी में जवाब दें। अंग्रेज़ी में पूछें तो भी हिंदी में। सरल, स्पष्ट हिंदी।\n\nतरीका:\n- NCERT/MP Board अध्याय को नर्मदा घाटी के स्थानीय जीवन से जोड़ें।\n- INRM की तकनीकें EVS और विज्ञान के पाठों में उदाहरण के रूप में लाएं।\n- INRM की participatory mapping activity को कक्षा में गाँव का नक्शा बनाने की गतिविधि के रूप में उपयोग करें।\n- पाठ योजना संरचना: संदर्भ → अवलोकन/सवाल → गतिविधि → चर्चा → व्यापक जोड़ाव\n- कम संसाधन, ज़्यादा सोच। स्थानीय चीज़ें उपयोग करें।\n- शिक्षक सुविधाकर्ता है, व्याख्याता नहीं।\n- जवाब 200-300 शब्द, संक्षिप्त और उपयोगी।";
+var SYSTEM = "आप ऋषि हैं — नर्मदा घाटी के शिक्षकों के लिए एक शिक्षा साथी (Narmada Education Companion)। आप मृदा/ऋषि शैक्षिक दर्शन, INRM ज्ञान और जीवन मूल्य भावनात्मक विकास पाठ्यक्रम पर आधारित पाठ योजनाएँ और गतिविधियाँ बनाने में मदद करते हैं।\n\n" + CONSTITUTION + "\n\n" + NCERT + "\n\n" + INRM + "\n\n" + JEEVAN_MULYA + "\n\nभाषा नियम (अनिवार्य): हमेशा हिंदी में जवाब दें। सरल, स्पष्ट हिंदी।\n\nतरीका:\n- NCERT/MP Board अध्याय को नर्मदा घाटी के स्थानीय जीवन से जोड़ें।\n- INRM की तकनीकें EVS और विज्ञान के पाठों में उदाहरण के रूप में लाएं।\n- जीवन मूल्य सत्रों के लिए: कहानी + गतिविधि + चर्चा प्रश्न + मूल्यांकन rubric दें।\n- पाठ योजना संरचना: संदर्भ → अवलोकन/सवाल → गतिविधि → चर्चा → जोड़ाव\n- कम संसाधन, ज़्यादा सोच। शिक्षक सुविधाकर्ता है।\n- जवाब 200-300 शब्द, संक्षिप्त और उपयोगी।";
 
-var PILLS = ["Mrida Philosophy","Totto-Chan","Summerhill","Paulo Freire","Hoshangabad Science (HSTP)","NCERT","MP Board","INRM · PRADAN"];
+var PILLS = ["Mrida Philosophy","Totto-Chan","Summerhill","Paulo Freire","Hoshangabad Science (HSTP)","NCERT","MP Board","INRM · PRADAN","जीवन मूल्य / SEL"];
 var CLASSES = ["सभी कक्षाएँ","कक्षा 1-2","कक्षा 3-5","कक्षा 6-8","कक्षा 9-10"];
-var SUBJECTS = ["सभी विषय","गणित","विज्ञान","हिंदी भाषा","सामाजिक विज्ञान","अंग्रेज़ी","पर्यावरण (EVS)","INRM / प्रकृति","कला / रचनात्मकता"];
+var SUBJECTS = ["सभी विषय","गणित","विज्ञान","हिंदी भाषा","सामाजिक विज्ञान","अंग्रेज़ी","पर्यावरण (EVS)","INRM / प्रकृति","जीवन मूल्य / SEL","कला / रचनात्मकता"];
 var SUGGESTIONS = [
   {s:"गणित",c:"कक्षा 3-5",t:"बाज़ार की कीमतों से भिन्न और दशमलव सिखाएं"},
   {s:"गणित",c:"कक्षा 1-2",t:"खेत और बीज गिनने से गणित की शुरुआत"},
@@ -127,7 +128,13 @@ var SUGGESTIONS = [
   {s:"INRM / प्रकृति",c:"कक्षा 6-8",t:"गाँव का watershed नक्शा बनाने की कक्षा गतिविधि"},
   {s:"INRM / प्रकृति",c:"कक्षा 6-8",t:"मेड़बंदी और गुल्ली प्लग — soil erosion का प्रयोग करें"},
   {s:"INRM / प्रकृति",c:"कक्षा 9-10",t:"watershed management को geography और environment से जोड़ें"},
-  {s:"कला / रचनात्मकता",c:"सभी कक्षाएँ",t:"स्थानीय कला से रचनात्मक अभिव्यक्ति की गतिविधि"},
+  {s:"जीवन मूल्य / SEL",c:"कक्षा 1-2",t:"तनाव क्या है — मन का बस्ता गतिविधि कैसे करें?"},
+  {s:"जीवन मूल्य / SEL",c:"कक्षा 1-2",t:"बच्चों को भावनाएं पहचानना सिखाएं — मौसम वाली गतिविधि"},
+  {s:"जीवन मूल्य / SEL",c:"कक्षा 3-5",t:"गुस्से को नियंत्रित करना — ट्रैफिक लाइट तकनीक कक्षा में कैसे सिखाएं?"},
+  {s:"जीवन मूल्य / SEL",c:"कक्षा 3-5",t:"असफलता से सीखना — गिरी हुई मीनार गतिविधि का पूरा plan"},
+  {s:"जीवन मूल्य / SEL",c:"कक्षा 3-5",t:"भावनाओं को व्यक्त करना — Emotion Role Play कैसे करें?"},
+  {s:"जीवन मूल्य / SEL",c:"सभी कक्षाएँ",t:"जीवन मूल्य पाठ्यक्रम का मूल्यांकन कैसे करें? Rubric और checklist चाहिए"},
+  {s:"जीवन मूल्य / SEL",c:"कक्षा 3-5",t:"'अभी नहीं' (Yet) activity — आत्मविश्वास बढ़ाने के लिए"},
   {s:"सभी विषय",c:"सभी कक्षाएँ",t:"शर्मीले बच्चे को बिना दबाव के भाग लेने में कैसे मदद करें?"},
   {s:"सभी विषय",c:"सभी कक्षाएँ",t:"मिश्रित आयु के बच्चों के लिए एक साथ गतिविधि कैसे करें?"}
 ];
