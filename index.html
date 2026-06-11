@@ -437,12 +437,17 @@ function quickPlan(type, topic){
 
 function callAPI(prompt, cb){
   fetch(PROXY,{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:2500,messages:[{role:'user',content:prompt}]})
+    body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:2500,
+      messages:[
+        {role:'user',content:prompt},
+        {role:'assistant',content:'{'}
+      ]})
   })
   .then(function(r){return r.json();})
   .then(function(d){
-    if(d.content&&d.content[0]&&d.content[0].text) cb(d.content[0].text);
-    else showError();
+    if(d.content&&d.content[0]&&d.content[0].text){
+      cb('{'+d.content[0].text);
+    } else showError();
   })
   .catch(function(){showError();});
 }
