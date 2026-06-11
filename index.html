@@ -473,69 +473,137 @@ function renderPlan(p, subj, chap, cls, board){
   if(p.activities&&p.activities.length){
     p.activities.forEach(function(a,i){
       acts += '<div class="act-card">'
-        +'<div class="act-header">Activity '+(i+1)+': '+a.name+'<span class="act-time">⏱ '+a.time+'</span></div>'
+        +'<div class="act-header">गतिविधि '+(i+1)+': '+a.name+'<span class="act-time">⏱ '+a.time+'</span></div>'
         +'<div class="act-row"><div class="act-key">Teacher Says</div><div class="act-val">'+a.teacher_says+'</div></div>'
         +'<div class="act-row"><div class="act-key">Teacher Does</div><div class="act-val">'+a.teacher_does+'</div></div>'
         +'<div class="act-row"><div class="act-key">Students Do</div><div class="act-val">'+a.students_do+'</div></div>'
         +'<div class="act-row"><div class="act-key">Evidence</div><div class="act-val" style="color:#006620">'+a.evidence+'</div></div>'
-        +'<div class="act-row"><div class="act-key">If Mistake</div><div class="act-val" style="color:#900">'+a.mistake+'\n→ '+a.response+'</div></div>'
+        +'<div class="act-row"><div class="act-key">If Mistake</div><div class="act-val" style="color:#900">'+a.mistake+'<br>→ '+a.response+'</div></div>'
         +'</div>';
     });
   }
 
-  var assess = (p.assessment||[]).map(function(q,i){return '<div style="padding:.3rem 0;border-bottom:1px solid #f0f0f0;font-size:.76rem;color:#333">'+(i+1)+'. '+q+'</div>';}).join('');
-  var reflect = (p.reflection||[]).map(function(q){return '<div style="padding:.25rem 0;font-size:.75rem;color:#555">• '+q+'</div>';}).join('');
+  var assess = (p.assessment||[]).map(function(q,i){
+    return '<p style="padding:.3rem 0;border-bottom:1px solid #f0f0f0;font-size:.78rem;color:#333;margin:0">'+(i+1)+'. '+q+'</p>';
+  }).join('');
+
+  var reflect = (p.reflection||[]).map(function(q){
+    return '<p style="padding:.25rem 0;font-size:.76rem;color:#555;margin:0">• '+q+'</p>';
+  }).join('');
 
   var refineChips = [
     ['सरल करें','Make it simpler — fewer steps, easier words'],
     ['खेल जोड़ें','Add a game or playful element'],
-    ['स्थानीय उदाहरण','Use more specific Narmada Valley examples'],
+    ['स्थानीय उदाहरण','More specific Narmada Valley examples'],
     ['कमज़ोर बच्चों के लिए','Adapt for struggling learners only'],
     ['तेज़ बच्चों के लिए','Extend for advanced learners'],
     ['मिश्रित आयु','Adapt for mixed age group'],
-    ['गृहकार्य बनाएं','Create a simple practical homework using local life that needs zero materials'],
-    ['प्रश्न पत्र','Create a simple 5-question test paper for this topic suitable for village school'],
-    ['Worksheet','Create a simple no-print worksheet activity using blackboard only'],
-    ['Blackboard Plan','Give exact blackboard layout step by step — what to write, where, when'],
+    ['Blackboard Plan','Give exact blackboard layout — what to write where when'],
     ['भागीदारी बढ़ाएं','Increase student participation, reduce teacher talk'],
     ['और छोटा करें','Make it fit in 30 minutes only']
   ].map(function(r){
     return '<button class="rfchip" onclick="refine(this,\''+r[1]+'\')">'+r[0]+'</button>';
   }).join('');
 
-  document.getElementById('plan-content').innerHTML =
-    '<div class="ph"><div class="ph-title">'+subj+' — Session Plan</div><div class="ph-sub">Narmada Education Companion · ऋषि</div></div>'
+  var html = '<div class="ph"><div class="ph-title">'+subj+' — पाठ योजना</div><div class="ph-sub">Narmada Education Companion · ऋषि</div></div>'
     +'<div class="pm3"><div class="pmi"><div class="pml">Class</div><div class="pmv">'+cls+'</div></div><div class="pmi"><div class="pml">Board</div><div class="pmv">'+board+'</div></div><div class="pmi"><div class="pml">Date</div><div class="pmv">'+new Date().toLocaleDateString('hi-IN')+'</div></div></div>'
     +'<div class="pm1"><div class="pmi"><div class="pml">Topic / अध्याय</div><div class="pmv">'+chap+'</div></div></div>'
     +(philBadges?'<div class="pm1"><div class="pmi"><div class="pml">Approach</div><div class="pmv">'+philBadges+'</div></div></div>':'')
-    +'<div class="pm2"><div class="pmi"><div class="pml">Prior Knowledge</div><div class="pmv light">'+p.prior_knowledge+'</div></div><div class="pmi"><div class="pml">Common Misconception</div><div class="pmv light" style="color:#900">'+p.misconception+'</div></div></div>'
-    +'<div class="ps"><div class="psh">Learning Objectives / सीखने के उद्देश्य</div><div class="psb">'+(p.objectives||[]).map(function(o,i){return (i+1)+'. '+o;}).join('\n')+'</div></div>'
+    +'<div class="pm2"><div class="pmi"><div class="pml">Prior Knowledge</div><div class="pmv light">'+p.prior_knowledge+'</div></div><div class="pmi"><div class="pml">Common Misconception ⚠️</div><div class="pmv light" style="color:#900">'+p.misconception+'</div></div></div>'
+    +'<div class="ps"><div class="psh">📌 Learning Objectives / सीखने के उद्देश्य</div><div class="psb">'+(p.objectives||[]).map(function(o,i){return (i+1)+'. '+o;}).join('\n')+'</div></div>'
     +acts
-    +'<div class="diff-grid"><div class="diff-col"><div class="diff-label weak">कमज़ोर</div><div class="diff-text">'+(p.differentiation&&p.differentiation.weak||'')+'</div></div><div class="diff-col"><div class="diff-label avg">सामान्य</div><div class="diff-text">'+(p.differentiation&&p.differentiation.average||'')+'</div></div><div class="diff-col"><div class="diff-label strong">तेज़</div><div class="diff-text">'+(p.differentiation&&p.differentiation.strong||'')+'</div></div></div>'
-    +'<div class="ps"><div class="psh">Assessment</div><div class="psb">'+assess+'</div></div>'
+    +'<div class="ps"><div class="psh">👥 Differentiation / विभिन्न स्तर के बच्चे</div><div style="padding:0">'
+    +'<div style="padding:.5rem .65rem;border-bottom:1px solid #eee"><span style="font-size:.6rem;font-weight:700;background:#fff0f0;color:#c00;padding:.1rem .4rem;border-radius:3px;text-transform:uppercase">कमज़ोर</span><div style="font-size:.76rem;color:#333;margin-top:.3rem;line-height:1.6">'+(p.differentiation&&p.differentiation.weak||'')+'</div></div>'
+    +'<div style="padding:.5rem .65rem;border-bottom:1px solid #eee"><span style="font-size:.6rem;font-weight:700;background:#fff8e0;color:#a06000;padding:.1rem .4rem;border-radius:3px;text-transform:uppercase">सामान्य</span><div style="font-size:.76rem;color:#333;margin-top:.3rem;line-height:1.6">'+(p.differentiation&&p.differentiation.average||'')+'</div></div>'
+    +'<div style="padding:.5rem .65rem"><span style="font-size:.6rem;font-weight:700;background:#f0fff4;color:#006620;padding:.1rem .4rem;border-radius:3px;text-transform:uppercase">तेज़</span><div style="font-size:.76rem;color:#333;margin-top:.3rem;line-height:1.6">'+(p.differentiation&&p.differentiation.strong||'')+'</div></div>'
+    +'</div></div>'
+    +'<div class="ps"><div class="psh">✅ Assessment / मूल्यांकन</div><div class="psb">'+assess+'</div></div>'
     +'<div class="local-box"><div class="psh">🌊 नर्मदा घाटी — Local Context</div><div class="psb">'+(p.local_example||'')+'</div></div>'
-    +'<div class="ps"><div class="psh">Teacher Reflection / विचार</div><div class="psb">'+reflect+'</div></div>'
-    +'<div class="plan-actions"><button class="pab" style="background:#1a1a1a;color:#fff" onclick="copyPlan()">📋 कॉपी</button><button class="pab" style="background:#d4962a;color:#1a0a00" onclick="closePlan()">✦ नई योजना</button></div>'
-    +'<div style="background:#f9f9f9;border-top:2px solid #1a1a1a;padding:.75rem .7rem"><div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin-bottom:.5rem">Quick Refine / सुधार</div><div style="display:flex;flex-wrap:wrap;gap:.35rem">'+refineChips+'</div></div>'
-    +'<div style="background:#fff;border-top:1px solid #eee;padding:.65rem .7rem"><div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin-bottom:.4rem">Ask Rishi / और पूछें</div><div id="chat-msgs" style="display:flex;flex-direction:column;gap:.4rem;max-height:200px;overflow-y:auto;margin-bottom:.4rem"></div><div style="display:flex;gap:.4rem"><textarea id="chat-in" rows="2" style="flex:1;border:1px solid #ddd;border-radius:8px;padding:.45rem .7rem;font-size:.8rem;font-family:Noto Sans Devanagari,sans-serif;outline:none;resize:none;color:#1a1a1a" placeholder="जैसे: इसे 30 मिनट में कैसे करें?"></textarea><button onclick="sendChat()" style="background:#1a1a1a;color:#fff;border:none;border-radius:8px;width:40px;font-size:1.1rem;cursor:pointer;flex-shrink:0">→</button></div></div>';
+    +'<div class="ps"><div class="psh">🪞 Teacher Reflection / विचार</div><div class="psb">'+reflect+'</div></div>'
+    +'<div class="plan-actions">'
+    +'<button class="pab" style="background:#1a1a1a;color:#fff" onclick="copyPlan()">📋 कॉपी</button>'
+    +'<button class="pab" style="background:#2a5a2a;color:#fff" onclick="generateExtra(\'homework\')">📝 गृहकार्य</button>'
+    +'<button class="pab" style="background:#2a2a6a;color:#fff" onclick="generateExtra(\'qpaper\')">📄 प्रश्न पत्र</button>'
+    +'<button class="pab" style="background:#d4962a;color:#1a0a00" onclick="closePlan()">✦ नई योजना</button>'
+    +'</div>'
+    +'<div style="background:#f9f9f9;border-top:2px solid #1a1a1a;padding:.75rem .7rem">'
+    +'<div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin-bottom:.5rem">🔧 Quick Refine / सुधार करें</div>'
+    +'<div style="display:flex;flex-wrap:wrap;gap:.35rem">'+refineChips+'</div>'
+    +'</div>'
+    +'<div id="chat-section" style="background:#fff;border-top:2px solid #d4962a;padding:.65rem .7rem">'
+    +'<div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#d4962a;margin-bottom:.5rem">💬 Ask Rishi / ऋषि से पूछें</div>'
+    +'<div id="rishi-chat-msgs" style="display:flex;flex-direction:column;gap:.4rem;max-height:220px;overflow-y:auto;margin-bottom:.5rem"></div>'
+    +'<div style="display:flex;gap:.4rem">'
+    +'<textarea id="rishi-chat-input" rows="2" style="flex:1;border:1.5px solid #d4962a;border-radius:8px;padding:.5rem .75rem;font-size:.82rem;font-family:Noto Sans Devanagari,sans-serif;outline:none;resize:none;color:#1a1a1a;background:#fffdf8" placeholder="कोई भी सवाल पूछें... जैसे: इसे 30 मिनट में कैसे करें?"></textarea>'
+    +'<button id="rishi-chat-send" style="background:#d4962a;color:#1a0a00;border:none;border-radius:8px;width:44px;font-size:1.2rem;font-weight:700;cursor:pointer;flex-shrink:0">→</button>'
+    +'</div></div>';
+
+  document.getElementById('plan-content').innerHTML = html;
+
+  // Attach events AFTER innerHTML is set
+  document.getElementById('rishi-chat-send').onclick = sendChat;
+  document.getElementById('rishi-chat-input').addEventListener('keydown', function(e){
+    if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}
+  });
+}
+
+function generateExtra(type){
+  var msgs = document.getElementById('rishi-chat-msgs');
+  if(!msgs) return;
+  var label = type==='homework' ? 'गृहकार्य बनाएं' : 'प्रश्न पत्र बनाएं';
+  var instruction = type==='homework'
+    ? 'Create a simple practical homework for this lesson. Must use zero materials, connect to student\'s home/village life. Give 3-4 clear tasks in Hindi.'
+    : 'Create a simple 5-question test paper in Hindi for this topic. Mix easy and medium questions. Suitable for village school, no reading-heavy questions.';
+
+  var um=document.createElement('div');
+  um.style.cssText='align-self:flex-end;background:#1a1a1a;color:#fff;padding:.35rem .65rem;border-radius:10px 10px 2px 10px;font-size:.73rem;max-width:85%;font-family:Noto Sans Devanagari,sans-serif';
+  um.textContent=label; msgs.appendChild(um);
+
+  var lm=document.createElement('div');
+  lm.style.cssText='align-self:flex-start;background:#f5f5f5;color:#999;padding:.35rem .65rem;border-radius:2px 10px 10px 10px;font-size:.72rem;font-style:italic';
+  lm.id='extra-load'; lm.textContent='बना रहा हूँ...'; msgs.appendChild(lm);
+  msgs.scrollTop=msgs.scrollHeight;
+
+  fetch(PROXY,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:800,
+      messages:[{role:'user',content:'Current lesson:\n'+currentPlanText+'\n\n'+instruction+'\n\nRespond in Hindi only. Format with clear numbered points and headings.'}]})
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    var lel=document.getElementById('extra-load'); if(lel) lel.remove();
+    if(d.content&&d.content[0]&&d.content[0].text){
+      var rm=document.createElement('div');
+      rm.style.cssText='align-self:flex-start;background:#fff8ee;border:1px solid #d4962a;color:#3a2000;padding:.5rem .7rem;border-radius:2px 10px 10px 10px;font-size:.75rem;max-width:92%;line-height:1.7;font-family:Noto Sans Devanagari,sans-serif;white-space:pre-wrap';
+      rm.textContent=d.content[0].text;
+      msgs.appendChild(rm); msgs.scrollTop=msgs.scrollHeight;
+    }
+  })
+  .catch(function(){var lel=document.getElementById('extra-load');if(lel)lel.textContent='गड़बड़ हुई।';});
 }
 
 function refine(el, instruction){
   el.classList.add('loading');
-  var prompt = 'You are Rishi. The teacher wants to refine their lesson plan.\n\nCurrent plan:\n'+currentPlanText+'\n\nTeacher request: '+instruction+'\n\nApply Monday Morning Test: activities must work with zero prep, zero cost, village school resources only.\n\nProvide the improved/adapted content in Hindi. Be specific and practical. Max 200 words.';
-  var msgs = document.getElementById('chat-msgs');
-  var um=document.createElement('div'); um.className='chat-user'; um.textContent=el.textContent; msgs.appendChild(um);
-  var lm=document.createElement('div'); lm.className='chat-thinking'; lm.id='chat-load'; lm.textContent='सोच रहा हूँ...'; msgs.appendChild(lm);
+  var msgs = document.getElementById('rishi-chat-msgs');
+  if(!msgs) return;
+  var um=document.createElement('div');
+  um.style.cssText='align-self:flex-end;background:#1a1a1a;color:#fff;padding:.35rem .65rem;border-radius:10px 10px 2px 10px;font-size:.73rem;max-width:85%;font-family:Noto Sans Devanagari,sans-serif';
+  um.textContent=el.textContent; msgs.appendChild(um);
+  var lm=document.createElement('div');
+  lm.style.cssText='align-self:flex-start;background:#f5f5f5;color:#999;padding:.35rem .65rem;border-radius:2px 10px 10px 10px;font-size:.72rem;font-style:italic';
+  lm.id='chat-load'; lm.textContent='सोच रहा हूँ...'; msgs.appendChild(lm);
   msgs.scrollTop=msgs.scrollHeight;
   fetch(PROXY,{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:600,messages:[{role:'user',content:prompt}]})
+    body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:600,
+      messages:[{role:'user',content:'Current plan:\n'+currentPlanText+'\n\nRequest: '+instruction+'\n\nRespond in Hindi. Be specific and practical. Zero prep, zero materials. Max 200 words.'}]})
   })
   .then(function(r){return r.json();})
   .then(function(d){
     var lel=document.getElementById('chat-load'); if(lel) lel.remove();
     el.classList.remove('loading');
     if(d.content&&d.content[0]&&d.content[0].text){
-      var rm=document.createElement('div'); rm.className='chat-rishi'; rm.textContent=d.content[0].text;
+      var rm=document.createElement('div');
+      rm.style.cssText='align-self:flex-start;background:#fff8ee;border:1px solid #d4962a;color:#3a2000;padding:.4rem .65rem;border-radius:2px 10px 10px 10px;font-size:.73rem;max-width:90%;line-height:1.6;font-family:Noto Sans Devanagari,sans-serif;white-space:pre-wrap';
+      rm.textContent=d.content[0].text;
       msgs.appendChild(rm); msgs.scrollTop=msgs.scrollHeight;
     }
   })
@@ -543,13 +611,19 @@ function refine(el, instruction){
 }
 
 function sendChat(){
-  var inp=document.getElementById('chat-in'); var text=inp.value.trim(); if(!text) return;
+  var inp=document.getElementById('rishi-chat-input');
+  if(!inp) return;
+  var text=inp.value.trim(); if(!text) return;
   inp.value='';
-  var msgs=document.getElementById('chat-msgs');
-  var um=document.createElement('div'); um.className='chat-user'; um.textContent=text; msgs.appendChild(um);
-  var lm=document.createElement('div'); lm.className='chat-thinking'; lm.id='chat-load2'; lm.textContent='सोच रहा हूँ...'; msgs.appendChild(lm);
+  var msgs=document.getElementById('rishi-chat-msgs');
+  var um=document.createElement('div');
+  um.style.cssText='align-self:flex-end;background:#1a1a1a;color:#fff;padding:.35rem .65rem;border-radius:10px 10px 2px 10px;font-size:.73rem;max-width:85%;font-family:Noto Sans Devanagari,sans-serif';
+  um.textContent=text; msgs.appendChild(um);
+  var lm=document.createElement('div');
+  lm.style.cssText='align-self:flex-start;background:#f5f5f5;color:#999;padding:.35rem .65rem;border-radius:2px 10px 10px 10px;font-size:.72rem;font-style:italic';
+  lm.id='chat-load2'; lm.textContent='सोच रहा हूँ...'; msgs.appendChild(lm);
   msgs.scrollTop=msgs.scrollHeight;
-  chatMsgs.push({role:'user',content:'Current lesson plan context: '+currentPlanText+'\n\nTeacher question: '+text+'\n\nAnswer in Hindi. Be practical and specific. Monday Morning Test applies.'});
+  chatMsgs.push({role:'user',content:'Lesson plan context:\n'+currentPlanText+'\n\nTeacher question: '+text+'\n\nAnswer in Hindi. Practical and specific.'});
   fetch(PROXY,{method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:600,messages:chatMsgs})
   })
@@ -559,16 +633,14 @@ function sendChat(){
     if(d.content&&d.content[0]&&d.content[0].text){
       var reply=d.content[0].text;
       chatMsgs.push({role:'assistant',content:reply});
-      var rm=document.createElement('div'); rm.className='chat-rishi'; rm.textContent=reply;
+      var rm=document.createElement('div');
+      rm.style.cssText='align-self:flex-start;background:#fff8ee;border:1px solid #d4962a;color:#3a2000;padding:.4rem .65rem;border-radius:2px 10px 10px 10px;font-size:.73rem;max-width:90%;line-height:1.6;font-family:Noto Sans Devanagari,sans-serif;white-space:pre-wrap';
+      rm.textContent=reply;
       msgs.appendChild(rm); msgs.scrollTop=msgs.scrollHeight;
     }
   })
   .catch(function(){var lel=document.getElementById('chat-load2');if(lel)lel.textContent='गड़बड़ हुई।';});
 }
-
-document.addEventListener('keydown',function(e){
-  if(e.target.id==='chat-in'&&e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}
-});
 
 function renderRaw(text){
   document.getElementById('plan-content').innerHTML='<div style="padding:1rem;font-size:.8rem;line-height:1.7;color:#333;white-space:pre-wrap">'+text+'</div><div class="plan-actions"><button class="pab" style="background:#d4962a;color:#1a0a00" onclick="closePlan()">← वापस</button></div>';
