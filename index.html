@@ -303,7 +303,8 @@ var PHILS = [
   {id:"summerhill",name:"Summerhill",tag:"स्वतंत्रता",desc:"बच्चे को चुनने दें"},
   {id:"hstp",name:"Hoshangabad",tag:"जिज्ञासा",desc:"पहले प्रयोग"},
   {id:"freire",name:"Paulo Freire",tag:"संवाद",desc:"शिक्षा संवाद है"},
-  {id:"mrida",name:"Mrida",tag:"संदर्भ",desc:"स्थानीय जीवन से जोड़ें"}
+  {id:"mrida",name:"Mrida",tag:"संदर्भ",desc:"स्थानीय जीवन से जोड़ें"},
+  {id:"hybrid",name:"Hybrid / सभी",tag:"संतुलन",desc:"सभी दृष्टिकोण मिलाएं"}
 ];
 
 // Build philosophy row
@@ -313,9 +314,22 @@ PHILS.forEach(function(p){
   c.className = 'phil-chip'; c.id = 'ph-'+p.id;
   c.innerHTML = '<div class="pt">'+p.tag+'</div><div class="pn">'+p.name+'</div><div class="pd">'+p.desc+'</div>';
   c.onclick = function(){
-    var idx = S.philosophies.indexOf(p.id);
-    if(idx>-1){S.philosophies.splice(idx,1);c.classList.remove('on');}
-    else{S.philosophies.push(p.id);c.classList.add('on');}
+    if(p.id==='hybrid'){
+      var allIds = PHILS.filter(function(x){return x.id!=='hybrid';}).map(function(x){return x.id;});
+      var allSelected = allIds.every(function(id){return S.philosophies.indexOf(id)>-1;});
+      if(allSelected){
+        S.philosophies=[];
+        document.querySelectorAll('.phil-chip').forEach(function(x){x.classList.remove('on');});
+      } else {
+        S.philosophies=allIds.slice();
+        document.querySelectorAll('.phil-chip').forEach(function(x){x.classList.add('on');});
+      }
+    } else {
+      var idx = S.philosophies.indexOf(p.id);
+      if(idx>-1){S.philosophies.splice(idx,1);c.classList.remove('on');}
+      else{S.philosophies.push(p.id);c.classList.add('on');}
+      document.getElementById('ph-hybrid').classList.remove('on');
+    }
   };
   pr.appendChild(c);
 });
@@ -445,7 +459,7 @@ function parseJSON(raw){
 
 function showPlanPage(){
   document.getElementById('plan-page').classList.add('show');
-  document.getElementById('plan-content').innerHTML='<div class="loading-wrap"><div class="ldots"><div class="ld" style="animation-delay:0s"></div><div class="ld" style="animation-delay:.2s"></div><div class="ld" style="animation-delay:.4s"></div></div><div style="font-size:.8rem;color:#888;margin-top:.75rem">ऋषि सोच रहा है...<br><span style="font-size:.7rem;color:#bbb">Monday Morning Test लागू हो रहा है</span></div></div>';
+  document.getElementById('plan-content').innerHTML='<div class="loading-wrap"><div class="ldots"><div class="ld" style="animation-delay:0s"></div><div class="ld" style="animation-delay:.2s"></div><div class="ld" style="animation-delay:.4s"></div></div><div style="font-size:.8rem;color:#888;margin-top:.75rem">ऋषि पाठ योजना बना रहा है...</div></div>';
 }
 
 function renderPlan(p, subj, chap, cls, board){
@@ -479,20 +493,20 @@ function renderPlan(p, subj, chap, cls, board){
     ['कमज़ोर बच्चों के लिए','Adapt for struggling learners only'],
     ['तेज़ बच्चों के लिए','Extend for advanced learners'],
     ['मिश्रित आयु','Adapt for mixed age group'],
-    ['गृहकार्य बनाएं','Create a simple homework using local life'],
-    ['Worksheet','Create a simple no-print worksheet activity'],
-    ['Blackboard Plan','Give exact blackboard layout step by step'],
+    ['गृहकार्य बनाएं','Create a simple practical homework using local life that needs zero materials'],
+    ['प्रश्न पत्र','Create a simple 5-question test paper for this topic suitable for village school'],
+    ['Worksheet','Create a simple no-print worksheet activity using blackboard only'],
+    ['Blackboard Plan','Give exact blackboard layout step by step — what to write, where, when'],
     ['भागीदारी बढ़ाएं','Increase student participation, reduce teacher talk'],
-    ['Assessment जोड़ें','Add more specific assessment questions'],
     ['और छोटा करें','Make it fit in 30 minutes only']
   ].map(function(r){
     return '<button class="rfchip" onclick="refine(this,\''+r[1]+'\')">'+r[0]+'</button>';
   }).join('');
 
   document.getElementById('plan-content').innerHTML =
-    '<div class="ph"><div class="ph-title">'+subj+' — Session Plan</div><div class="ph-sub">Narmada Education Companion · ऋषि · Monday Morning Ready</div></div>'
+    '<div class="ph"><div class="ph-title">'+subj+' — Session Plan</div><div class="ph-sub">Narmada Education Companion · ऋषि</div></div>'
     +'<div class="pm3"><div class="pmi"><div class="pml">Class</div><div class="pmv">'+cls+'</div></div><div class="pmi"><div class="pml">Board</div><div class="pmv">'+board+'</div></div><div class="pmi"><div class="pml">Date</div><div class="pmv">'+new Date().toLocaleDateString('hi-IN')+'</div></div></div>'
-    +'<div class="pm1"><div class="pmi" style="grid-column:1/-1"><div class="pml">Topic / अध्याय</div><div class="pmv">'+chap+'</div></div></div>'
+    +'<div class="pm1"><div class="pmi"><div class="pml">Topic / अध्याय</div><div class="pmv">'+chap+'</div></div></div>'
     +(philBadges?'<div class="pm1"><div class="pmi"><div class="pml">Approach</div><div class="pmv">'+philBadges+'</div></div></div>':'')
     +'<div class="pm2"><div class="pmi"><div class="pml">Prior Knowledge</div><div class="pmv light">'+p.prior_knowledge+'</div></div><div class="pmi"><div class="pml">Common Misconception</div><div class="pmv light" style="color:#900">'+p.misconception+'</div></div></div>'
     +'<div class="ps"><div class="psh">Learning Objectives / सीखने के उद्देश्य</div><div class="psb">'+(p.objectives||[]).map(function(o,i){return (i+1)+'. '+o;}).join('\n')+'</div></div>'
@@ -502,8 +516,8 @@ function renderPlan(p, subj, chap, cls, board){
     +'<div class="local-box"><div class="psh">🌊 नर्मदा घाटी — Local Context</div><div class="psb">'+(p.local_example||'')+'</div></div>'
     +'<div class="ps"><div class="psh">Teacher Reflection / विचार</div><div class="psb">'+reflect+'</div></div>'
     +'<div class="plan-actions"><button class="pab" style="background:#1a1a1a;color:#fff" onclick="copyPlan()">📋 कॉपी</button><button class="pab" style="background:#d4962a;color:#1a0a00" onclick="closePlan()">✦ नई योजना</button></div>'
-    +'<div id="refine-bar"><div class="refine-title">Quick Refine / सुधार</div><div class="refine-chips">'+refineChips+'</div></div>'
-    +'<div id="chat-wrap"><div class="chat-title">Ask Rishi / और पूछें</div><div id="chat-msgs"></div><div class="chat-input-row"><textarea class="chat-input" id="chat-in" rows="2" placeholder="जैसे: इसे 30 मिनट में कैसे करें? या: कमज़ोर पाठक के लिए?"></textarea><button class="chat-send" onclick="sendChat()">→</button></div></div>';
+    +'<div style="background:#f9f9f9;border-top:2px solid #1a1a1a;padding:.75rem .7rem"><div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin-bottom:.5rem">Quick Refine / सुधार</div><div style="display:flex;flex-wrap:wrap;gap:.35rem">'+refineChips+'</div></div>'
+    +'<div style="background:#fff;border-top:1px solid #eee;padding:.65rem .7rem"><div style="font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#888;margin-bottom:.4rem">Ask Rishi / और पूछें</div><div id="chat-msgs" style="display:flex;flex-direction:column;gap:.4rem;max-height:200px;overflow-y:auto;margin-bottom:.4rem"></div><div style="display:flex;gap:.4rem"><textarea id="chat-in" rows="2" style="flex:1;border:1px solid #ddd;border-radius:8px;padding:.45rem .7rem;font-size:.8rem;font-family:Noto Sans Devanagari,sans-serif;outline:none;resize:none;color:#1a1a1a" placeholder="जैसे: इसे 30 मिनट में कैसे करें?"></textarea><button onclick="sendChat()" style="background:#1a1a1a;color:#fff;border:none;border-radius:8px;width:40px;font-size:1.1rem;cursor:pointer;flex-shrink:0">→</button></div></div>';
 }
 
 function refine(el, instruction){
