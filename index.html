@@ -470,18 +470,37 @@ function renderTabContent(name, text){
 
   if(name === 'resources'){
     // Extract YouTube search terms and create links
-    var ytSection = '';
+    var ytSection = '<div class="ws-card"><div class="ws-card-header" style="background:#ff0000">▶ YouTube — वीडियो खोजें</div><div style="padding:.3rem 0">';
+    var searchTerms = [
+      WS.subject+' '+WS.chapter.replace(/पाठ \d+: |अध्याय \d+: |Unit \d+: /,'').substring(0,30)+' hindi',
+      'class '+WS.cls+' '+WS.subject+' '+WS.chapter.replace(/पाठ \d+: |अध्याय \d+: |Unit \d+: /,'').substring(0,20),
+      WS.chapter.replace(/पाठ \d+: |अध्याय \d+: |Unit \d+: /,'').substring(0,30)+' activity children'
+    ];
+    searchTerms.forEach(function(term){
+      var url = 'https://www.youtube.com/results?search_query='+encodeURIComponent(term);
+      ytSection += '<a class="yt-card" href="'+url+'" target="_blank"><div class="yt-icon">▶</div><div class="yt-info"><div class="yt-title">'+term+'</div><div class="yt-sub">YouTube पर खोजें →</div></div></a>';
+    });
+    ytSection += '</div></div>';
+
+    var websiteSection = '<div class="ws-card"><div class="ws-card-header" style="background:#1565c0">🌐 उपयोगी वेबसाइटें</div><div style="padding:.3rem 0">'
+      +'<a class="yt-card" href="https://ncert.nic.in/textbook.php" target="_blank"><div class="yt-icon" style="background:#1565c0">📚</div><div class="yt-info"><div class="yt-title">NCERT पाठ्यपुस्तकें</div><div class="yt-sub">ncert.nic.in — सभी कक्षाओं की किताबें</div></div></a>'
+      +'<a class="yt-card" href="https://diksha.gov.in" target="_blank"><div class="yt-icon" style="background:#ff6f00">🎓</div><div class="yt-info"><div class="yt-title">DIKSHA — Digital Platform</div><div class="yt-sub">diksha.gov.in — पाठ सामग्री और वीडियो</div></div></a>'
+      +'<a class="yt-card" href="https://www.khanacademy.org/math?lang=hi" target="_blank"><div class="yt-icon" style="background:#14BF96">K</div><div class="yt-info"><div class="yt-title">Khan Academy Hindi</div><div class="yt-sub">गणित और विज्ञान — हिंदी में</div></div></a>'
+      +'<a class="yt-card" href="https://mpbse.nic.in" target="_blank"><div class="yt-icon" style="background:#2e7d32">MP</div><div class="yt-info"><div class="yt-title">MP Board</div><div class="yt-sub">mpbse.nic.in — MP Board resources</div></div></a>'
+      +'<a class="yt-card" href="https://www.youtube.com/@LearnWithOliver" target="_blank"><div class="yt-icon" style="background:#ff0000">▶</div><div class="yt-info"><div class="yt-title">Hindi Medium YouTube</div><div class="yt-sub">हिंदी माध्यम पाठ वीडियो</div></div></a>'
+      +'</div></div>';
+
+    // Extract extra YouTube terms from AI response
     var ytMatches = text.match(/Search: ([^\n]+)/g);
     if(ytMatches && ytMatches.length){
-      ytSection = '<div class="ws-card"><div class="ws-card-header" style="background:#ff0000">▶ YouTube — संबंधित वीडियो खोजें</div><div style="padding:.3rem 0">';
       ytMatches.forEach(function(m){
         var term = m.replace('Search: ','').trim();
-        var url = 'https://www.youtube.com/results?search_query='+encodeURIComponent(term+' hindi class '+WS.cls);
-        ytSection += '<a class="yt-card" href="'+url+'" target="_blank"><div class="yt-icon">▶</div><div class="yt-info"><div class="yt-title">'+term+'</div><div class="yt-sub">YouTube पर खोजें →</div></div></a>';
+        var url = 'https://www.youtube.com/results?search_query='+encodeURIComponent(term);
+        ytSection = ytSection.replace('</div></div>', '<a class="yt-card" href="'+url+'" target="_blank"><div class="yt-icon">▶</div><div class="yt-info"><div class="yt-title">'+term+'</div><div class="yt-sub">YouTube →</div></div></a></div></div>');
       });
-      ytSection += '</div></div>';
     }
-    pane.innerHTML = ytSection + '<div class="ws-card"><div class="ws-card-header green">📦 Resources</div><div class="ws-card-body">'+text+'</div></div>';
+
+    pane.innerHTML = ytSection + websiteSection + '<div class="ws-card"><div class="ws-card-header green">📦 Teaching Resources</div><div class="ws-card-body">'+text+'</div></div>';
     return;
   }
 
@@ -526,13 +545,35 @@ function sendRishi(){
   var lm=document.createElement('div'); lm.className='rm-thinking'; lm.id='rl'; lm.textContent='सोच रहा हूँ...'; msgs.appendChild(lm);
   msgs.scrollTop=msgs.scrollHeight;
 
-  rishiMsgs.push({role:'user', content:SYSTEM_CORE+'\nClass: '+WS.cls+'\nSubject: '+WS.subject+'\nChapter: '+WS.chapter+'\n\nTeacher question: '+text+'\n\nAnswer in Hindi. Practical and specific. 3-5 sentences max.'});
+  var context = SYSTEM_CORE+'\nClass: '+WS.cls+'\nSubject: '+WS.subject+'\nChapter: '+WS.chapter+'\nAnswer in Hindi. Practical. 3-5 sentences max.';
 
-  callAPI(rishiMsgs[rishiMsgs.length-1].content, function(reply){
+  if(rishiMsgs.length === 0){
+    rishiMsgs.push({role:'user', content: context+'\n\nTeacher question: '+text});
+  } else {
+    rishiMsgs.push({role:'user', content: text});
+  }
+
+  fetch(PROXY,{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:600,messages:rishiMsgs})
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
     var lel=document.getElementById('rl'); if(lel) lel.remove();
-    rishiMsgs.push({role:'assistant', content:reply});
-    var rm=document.createElement('div'); rm.className='rm-rishi'; rm.textContent=reply;
-    msgs.appendChild(rm); msgs.scrollTop=msgs.scrollHeight;
+    if(d.content&&d.content[0]&&d.content[0].text){
+      var reply=d.content[0].text;
+      rishiMsgs.push({role:'assistant', content:reply});
+      var rm=document.createElement('div'); rm.className='rm-rishi'; rm.textContent=reply;
+      msgs.appendChild(rm); msgs.scrollTop=msgs.scrollHeight;
+    } else {
+      var lel2=document.getElementById('rl'); if(lel2) lel2.remove();
+      var em=document.createElement('div'); em.className='rm-thinking'; em.textContent='कुछ गड़बड़ हुई — दोबारा कोशिश करें।';
+      msgs.appendChild(em);
+    }
+  })
+  .catch(function(){
+    var lel=document.getElementById('rl'); if(lel) lel.remove();
+    var em=document.createElement('div'); em.className='rm-thinking'; em.textContent='कुछ गड़बड़ हुई।';
+    msgs.appendChild(em); msgs.scrollTop=msgs.scrollHeight;
   });
 }
 
