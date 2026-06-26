@@ -33,7 +33,8 @@ html,body{height:100%;background:var(--bg);color:var(--cream);font-family:'DM Sa
 .chip{flex-shrink:0;background:var(--surface);border:1.5px solid var(--border);color:var(--cream);padding:.4rem .8rem;border-radius:20px;cursor:pointer;font-size:.78rem;font-family:'Noto Sans Devanagari',sans-serif;white-space:nowrap;transition:all .2s}
 .chip.on{background:var(--gold-dim);border-color:var(--gold);color:var(--gold)}
 .chip.board{font-family:'DM Sans',sans-serif;font-size:.82rem;padding:.45rem 1.1rem}
-.ch-list{display:flex;flex-direction:column;gap:.3rem;max-height:180px;overflow-y:auto}
+.chip.verified::after{content:" ✓";color:#5a9c4a;font-size:.65rem}
+.ch-list{display:flex;flex-direction:column;gap:.3rem;max-height:220px;overflow-y:auto}
 .ch-item{background:var(--surface);border:1.5px solid var(--border);color:var(--cream);padding:.5rem .8rem;border-radius:var(--radius);cursor:pointer;font-size:.75rem;font-family:'Noto Sans Devanagari',sans-serif;text-align:left;transition:all .2s;display:flex;justify-content:space-between;align-items:center}
 .ch-item.on{background:var(--gold-dim);border-color:var(--gold);color:var(--gold)}
 .ctx-grid{display:grid;grid-template-columns:1fr 1fr;gap:.4rem}
@@ -42,10 +43,19 @@ html,body{height:100%;background:var(--bg);color:var(--cream);font-family:'DM Sa
 .locked{font-size:.7rem;color:var(--muted);font-style:italic;padding:.25rem 0}
 .divider{border-top:1px solid var(--border);margin:.6rem 0;opacity:.4}
 .sp-label{font-size:.55rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem;opacity:.8}
+.verified-note{font-size:.6rem;color:#5a9c4a;background:rgba(90,156,74,0.1);border:1px solid rgba(90,156,74,0.3);border-radius:6px;padding:.4rem .6rem;margin-bottom:.6rem;line-height:1.5}
 #gen-bar{position:fixed;bottom:0;left:0;right:0;padding:.7rem 1rem .9rem;background:linear-gradient(to top,var(--bg) 65%,transparent);z-index:30}
 .gen-summary{font-size:.6rem;color:var(--muted);text-align:center;margin-bottom:.35rem;min-height:.85rem}
 .gen-btn{width:100%;background:var(--gold);color:#1a0a00;border:none;padding:.8rem;border-radius:var(--radius);font-size:.95rem;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer}
 .gen-btn:disabled{opacity:.3;cursor:default}
+
+/* FREE TOPIC MODE */
+.freetopic-box{background:var(--surface);border:1.5px solid var(--gold);border-radius:var(--radius);padding:.75rem;margin-bottom:.3rem}
+.freetopic-input{width:100%;background:var(--bg);border:1px solid var(--border);color:var(--cream);padding:.55rem .7rem;border-radius:8px;font-size:.85rem;font-family:'Noto Sans Devanagari',sans-serif;outline:none;resize:none;margin-top:.5rem}
+.freetopic-input:focus{border-color:var(--gold)}
+.freetopic-btn{width:100%;background:var(--gold);color:#1a0a00;border:none;padding:.6rem;border-radius:8px;font-size:.82rem;font-weight:600;font-family:'DM Sans',sans-serif;cursor:pointer;margin-top:.5rem}
+.freetopic-examples{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.5rem}
+.ft-ex{font-size:.65rem;background:var(--gold-dim);color:var(--gold);padding:.2rem .55rem;border-radius:12px;cursor:pointer}
 
 /* WORKSPACE */
 #workspace{position:fixed;inset:0;background:var(--bg);z-index:50;display:none;flex-direction:column}
@@ -76,53 +86,28 @@ html,body{height:100%;background:var(--bg);color:var(--cream);font-family:'DM Sa
 .ws-card-header.blue{background:#1a2a5a;color:#fff}
 .ws-card-header.orange{background:#8a3a00;color:#fff}
 
-/* ACTIVITY BLOCK */
-.act-block{background:#fff;margin:.6rem .7rem;border-radius:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08)}
-.act-title{background:#1a1a1a;color:#fff;padding:.4rem .75rem;font-size:.62rem;font-weight:600;letter-spacing:.4px;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center}
-.act-badge{background:var(--gold);color:#1a0a00;font-size:.52rem;padding:.1rem .35rem;border-radius:8px;font-weight:700}
-.act-row{display:grid;grid-template-columns:80px 1fr;border-bottom:1px solid #f0f0f0}
-.act-row:last-child{border-bottom:none}
-.act-key{background:#fafafa;padding:.45rem .55rem;font-size:.57rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#777;border-right:1px solid #f0f0f0;display:flex;align-items:flex-start;padding-top:.55rem}
-.act-val{padding:.45rem .6rem;font-size:.75rem;line-height:1.6;color:#2a2a2a;white-space:pre-wrap;font-family:'Noto Sans Devanagari',sans-serif}
-
-/* DIFF SECTION */
-.diff-row{display:grid;grid-template-columns:1fr 1fr 1fr}
-.diff-cell{padding:.5rem .6rem;border-right:1px solid #eee;font-size:.72rem;font-family:'Noto Sans Devanagari',sans-serif}
-.diff-cell:last-child{border-right:none}
-.diff-badge{font-size:.52rem;font-weight:700;text-transform:uppercase;padding:.1rem .35rem;border-radius:3px;display:inline-block;margin-bottom:.25rem}
-.diff-badge.w{background:#fff0f0;color:#c00}
-.diff-badge.a{background:#fff8e0;color:#8a5000}
-.diff-badge.s{background:#f0fff4;color:#006020}
-.diff-text{font-size:.7rem;line-height:1.5;color:#333}
-
-/* SUPPORT BUTTONS */
 .support-grid{display:flex;flex-wrap:wrap;gap:.4rem;padding:.65rem .7rem}
 .sup-btn{background:#fff;border:1px solid #ddd;color:#444;padding:.35rem .75rem;border-radius:20px;cursor:pointer;font-size:.72rem;font-family:'Noto Sans Devanagari',sans-serif;transition:all .2s}
 .sup-btn:active{background:#f5f5f5}
 .sup-btn.loading{opacity:.5;pointer-events:none}
 
-/* YOUTUBE LINKS */
 .yt-card{background:#fff;margin:.4rem .7rem;border-radius:8px;overflow:hidden;display:flex;align-items:center;gap:.65rem;padding:.6rem .75rem;box-shadow:0 1px 3px rgba(0,0,0,.07);cursor:pointer;text-decoration:none}
 .yt-icon{width:36px;height:36px;background:#ff0000;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem}
 .yt-info{flex:1;min-width:0}
 .yt-title{font-size:.75rem;color:#1a1a1a;font-weight:500;margin-bottom:.15rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .yt-sub{font-size:.6rem;color:#888}
 
-/* LOADING SPINNER */
 .ws-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2.5rem;gap:.75rem;background:#f7f3ee;min-height:200px}
 .ldots{display:flex;gap:5px}
 .ld{width:7px;height:7px;border-radius:50%;background:#d4962a;animation:pulse 1.2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
 .ws-loading-text{font-size:.78rem;color:#888;font-family:'Noto Sans Devanagari',sans-serif}
 
-/* CHAT RESPONSE */
 .chat-response{background:#fff8ee;border:1px solid #d4962a;border-radius:8px;margin:.5rem .7rem;padding:.65rem .75rem;font-size:.78rem;line-height:1.7;color:#3a2000;white-space:pre-wrap;font-family:'Noto Sans Devanagari',sans-serif}
 
-/* ASK RISHI FLOATING */
 #ask-rishi-btn{position:fixed;bottom:1rem;right:1rem;background:var(--gold);color:#1a0a00;border:none;border-radius:50px;padding:.55rem 1.1rem;font-size:.8rem;font-weight:700;cursor:pointer;z-index:100;font-family:'DM Sans',sans-serif;box-shadow:0 4px 16px rgba(212,150,42,0.4);display:none}
 #ask-rishi-btn.show{display:block}
 
-/* ASK RISHI PANEL */
 #rishi-panel{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid var(--gold);z-index:200;display:none;flex-direction:column;max-height:65vh}
 #rishi-panel.show{display:flex}
 .rishi-panel-header{display:flex;align-items:center;justify-content:space-between;padding:.55rem .85rem;border-bottom:1px solid #eee;background:#fffdf8}
@@ -143,16 +128,32 @@ html,body{height:100%;background:var(--bg);color:var(--cream);font-family:'DM Sa
     <span class="logo">ऋषि</span>
     <div>
       <div class="brand-title">Teaching Workspace</div>
-      <div class="brand-sub">Narmada Valley · NCERT · MP Board · Mrida</div>
+      <div class="brand-sub">MP Board Pathya Pustak Nigam · पायलट</div>
     </div>
   </div>
 
   <div id="setup">
+
+    <!-- FREE TOPIC MODE — NEW -->
+    <div class="freetopic-box">
+      <div class="sec-label" style="margin-bottom:.2rem">💭 स्वतंत्र विषय — किसी भी विषय पर चर्चा</div>
+      <div style="font-size:.68rem;color:var(--muted);line-height:1.5">किसी अध्याय से बंधे बिना — आज जो भी पढ़ाना है, सीधे लिखें</div>
+      <textarea class="freetopic-input" id="ft-input" rows="2" placeholder="जैसे: पर्यावरण, ईमानदारी, होली का त्योहार, पानी बचाना..."></textarea>
+      <div class="freetopic-examples">
+        <span class="ft-ex" onclick="ftFill('पर्यावरण और प्रकृति की रक्षा')">🌿 पर्यावरण</span>
+        <span class="ft-ex" onclick="ftFill('ईमानदारी और सच बोलना')">🤝 ईमानदारी</span>
+        <span class="ft-ex" onclick="ftFill('पानी बचाना')">💧 पानी बचाना</span>
+        <span class="ft-ex" onclick="ftFill('स्वच्छता')">🧹 स्वच्छता</span>
+      </div>
+      <button class="freetopic-btn" onclick="openFreeTopic()">✦ इस विषय पर वर्कस्पेस खोलें</button>
+    </div>
+
+    <div class="divider"></div>
+
     <div class="sec">
       <div class="sec-label"><span class="num on">1</span> Board</div>
       <div class="hscroll">
         <button class="chip board" onclick="sel('board','MP Board',this)">MP Board</button>
-        <button class="chip board" onclick="sel('board','NCERT',this)">NCERT</button>
       </div>
     </div>
     <div class="sec">
@@ -165,6 +166,7 @@ html,body{height:100%;background:var(--bg);color:var(--cream);font-family:'DM Sa
     </div>
     <div class="sec">
       <div class="sec-label"><span class="num" id="n4">4</span> Chapter / अध्याय</div>
+      <div id="verified-banner"></div>
       <div class="ch-list" id="ch-list"><span class="locked">पहले विषय चुनें</span></div>
     </div>
     <div class="sec">
@@ -255,6 +257,14 @@ var WS = {subject:null,chapter:null,cls:null,board:null};
 var tabLoaded = {};
 var rishiMsgs = [];
 
+/* ============================================================
+   VERIFIED CLASSES — confirmed against real Pathya Pustak Nigam /
+   currently-taught textbooks (photos from Mrida teacher, June 2026).
+   All other classes/subjects below are PENDING AUDIT — left as
+   placeholder data from the old NCERT-based list until verified.
+   ============================================================ */
+var VERIFIED_KEYS = ["3-EVS","4-EVS","5-EVS","8-सामाजिक विज्ञान"];
+
 var SUBJECTS = {
   "1":["हिंदी","गणित","EVS"],"2":["हिंदी","गणित","EVS"],
   "3":["हिंदी","गणित","EVS","अंग्रेज़ी"],"4":["हिंदी","गणित","EVS","अंग्रेज़ी"],
@@ -267,55 +277,188 @@ var SUBJECTS = {
 };
 
 var CHAPTERS = {
+  /* ===== VERIFIED — Class 3 EVS (real photo, 4 units, 12 chapters) ===== */
+  "3-EVS":[
+    "इकाई 1 / अध्याय 1: मेरा परिवार और मित्र",
+    "इकाई 1 / अध्याय 2: मेले में हम",
+    "इकाई 1 / अध्याय 3: त्योहार मनाएँ एक साथ",
+    "इकाई 2 / अध्याय 4: कुछ खोज पेड़-पौधों की",
+    "इकाई 2 / अध्याय 5: पेड़-पौधे और पशु-पक्षी हैं साथ",
+    "इकाई 2 / अध्याय 6: निर्भरता एक-दूसरे पर",
+    "इकाई 3 / अध्याय 7: पानी है अनमोल",
+    "इकाई 3 / अध्याय 8: हमारा भोजन",
+    "इकाई 3 / अध्याय 9: स्वस्थ रहो, प्रसन्न रहो",
+    "इकाई 4 / अध्याय 10: वस्तुओं की दुनिया",
+    "इकाई 4 / अध्याय 11: कैसे बनीं ये वस्तुएँ?",
+    "इकाई 4 / अध्याय 12: क्या और कैसे करें इसका?"
+  ],
+
+  /* ===== VERIFIED — Class 4 EVS (real photo, 5 units, 10 chapters) ===== */
+  "4-EVS":[
+    "इकाई 1 / अध्याय 1: मिलकर साथ रहना",
+    "इकाई 1 / अध्याय 2: अपने परिवेश को जानना",
+    "इकाई 2 / अध्याय 3: प्रकृति की पाठशाला",
+    "इकाई 2 / अध्याय 4: प्रकृति की गोद में",
+    "इकाई 3 / अध्याय 5: स्वास्थ्य के लिए भोजन",
+    "इकाई 3 / अध्याय 6: स्वस्थ रहो, प्रसन्न रहो",
+    "इकाई 4 / अध्याय 7: वस्तुएँ कैसे कार्य करती हैं?",
+    "इकाई 4 / अध्याय 8: वस्तुओं का निर्माण",
+    "इकाई 5 / अध्याय 9: जैसा देश, वैसा भेष",
+    "इकाई 5 / अध्याय 10: हमारा आकाश"
+  ],
+
+  /* ===== VERIFIED — Class 5 EVS (real photo, 5 units, 10 chapters) ===== */
+  "5-EVS":[
+    "इकाई 1 / अध्याय 1: जल — जीवन का आधार",
+    "इकाई 1 / अध्याय 2: एक नदी की यात्रा",
+    "इकाई 2 / अध्याय 3: भोजन का रहस्य",
+    "इकाई 2 / अध्याय 4: हमारा विद्यालय — एक आनंदमय स्थान",
+    "इकाई 3 / अध्याय 5: हमारा जीवंत देश",
+    "इकाई 3 / अध्याय 6: कुछ अनूठे स्थान",
+    "इकाई 4 / अध्याय 7: ऊर्जा — वस्तुएँ कैसे कार्य करती हैं?",
+    "इकाई 4 / अध्याय 8: वस्त्र — वस्तुएँ कैसे निर्मित होती हैं?",
+    "इकाई 5 / अध्याय 9: प्रकृति की लय",
+    "इकाई 5 / अध्याय 10: पृथ्वी — हम सबका घर"
+  ],
+
   "1-हिंदी":["पाठ 1: झूला","पाठ 2: आम की कहानी","पाठ 3: आम की टोकरी","पाठ 4: पत्ते ही पत्ते","पाठ 5: पकौड़ी","पाठ 6: छुक-छुक गाड़ी","पाठ 7: रसोईघर","पाठ 8: चूहो! म्याऊँ सो रही है","पाठ 9: बंदर और गिलहरी","पाठ 10: पगड़ी"],
   "1-गणित":["अध्याय 1: आकृतियाँ और स्थान","अध्याय 2: नंबर एक से नौ","अध्याय 3: जोड़","अध्याय 4: घटाव","अध्याय 5: दस और उससे आगे","अध्याय 6: बीस तक के नंबर","अध्याय 7: समय","अध्याय 8: बीस से ज़्यादा","अध्याय 9: माप-तौल","अध्याय 10: रुपए और पैसे"],
-  "1-EVS":["पाठ 1: मेरा घर","पाठ 2: मेरी पाठशाला","पाठ 3: परिवार","पाठ 4: खाना","पाठ 5: पेड़-पौधे","पाठ 6: पानी","पाठ 7: हवा"],
+  "1-EVS":["⚠️ अध्याय जल्द verified होंगे — अभी पुराना डेटा"],
   "2-हिंदी":["पाठ 1: ऊँट चला","पाठ 2: भालू ने खेली फुटबॉल","पाठ 3: म्याऊँ म्याऊँ","पाठ 4: अधूरा काम","पाठ 5: दोस्त की मदद","पाठ 6: बहुत हुआ","पाठ 7: मेरी किताब","पाठ 8: तितली और कली","पाठ 9: बुलबुल","पाठ 10: मेरी नानी"],
   "2-गणित":["अध्याय 1: जोड़ और घटाव","अध्याय 2: लंबाई","अध्याय 3: वज़न","अध्याय 4: सौ तक के नंबर","अध्याय 5: समय","अध्याय 6: पैसे","अध्याय 7: गुणा","अध्याय 8: आकृतियाँ","अध्याय 9: पैटर्न"],
-  "2-EVS":["पाठ 1: फूल-पत्ते","पाठ 2: जानवर","पाठ 3: खेत-खलिहान","पाठ 4: पानी का सफर","पाठ 5: मौसम","पाठ 6: गाँव और शहर"],
+  "2-EVS":["⚠️ अध्याय जल्द verified होंगे — अभी पुराना डेटा"],
   "3-हिंदी":["पाठ 1: कक्कू","पाठ 2: शेखीबाज़ मक्खी","पाठ 3: चाँद वाली अम्मा","पाठ 4: मन करता है","पाठ 5: बहादुर बित्तो","पाठ 6: हमसे सब कहते","पाठ 7: टिपटिपवा","पाठ 8: बंदर बाँट","पाठ 9: अकेला","पाठ 10: क्योंकि"],
   "3-गणित":["अध्याय 1: जहाँ-तहाँ संख्याएँ","अध्याय 2: मज़ेदार संख्याएँ","अध्याय 3: जोड़ना सीखो","अध्याय 4: घटाना सीखो","अध्याय 5: आकृतियाँ","अध्याय 6: गुणा","अध्याय 7: समय","अध्याय 8: तरह-तरह के खेत","अध्याय 9: पैसे"],
-  "3-EVS":["पाठ 1: डाल-डाल पर","पाठ 2: पौधे की कहानी","पाठ 3: पानी रे पानी","पाठ 4: हमारा खाना","पाठ 5: खाना कहाँ से आता है","पाठ 6: जानवरों की दुनिया","पाठ 7: मेरा परिवार","पाठ 8: सुरक्षा-सावधानी"],
   "3-अंग्रेज़ी":["Unit 1: Good Morning","Unit 2: Magic Garden","Unit 3: Birds Talk","Unit 4: Our Classroom","Unit 5: Sea Song","Unit 6: Helping","Unit 7: Fun with Maths"],
   "4-हिंदी":["पाठ 1: मन के भोले-भाले बादल","पाठ 2: जैसा सवाल वैसा जवाब","पाठ 3: किरमिच की गेंद","पाठ 4: पापा जब बच्चे थे","पाठ 5: दोस्त की पोशाक","पाठ 6: नाव बनाओ नाव बनाओ","पाठ 7: दान का हिसाब","पाठ 8: कौन","पाठ 9: स्वतंत्रता की ओर","पाठ 10: थप्प रोटी थप्प दाल"],
   "4-गणित":["अध्याय 1: इमारतें और नक्शे","अध्याय 2: लंबा और छोटा","अध्याय 3: गुणा करने का तरीका","अध्याय 4: टिक-टिक-टिक","अध्याय 5: तरह-तरह के पैटर्न","अध्याय 6: बड़ी संख्याएँ","अध्याय 7: भाग","अध्याय 8: आधा और पूरा","अध्याय 9: गोल-गोल"],
-  "4-EVS":["पाठ 1: बीज, बाजार की यात्रा","पाठ 2: कान-कान सुनो","पाठ 3: सब का सफर","पाठ 4: नाना-नानी","पाठ 5: अनोखा खेत","पाठ 6: पानी और जंगल","पाठ 7: मकड़े का जाल","पाठ 8: बदलते परिवार"],
   "4-अंग्रेज़ी":["Unit 1: Wake Up!","Unit 2: Noses","Unit 3: Run!","Unit 4: Why","Unit 5: Don't Be Afraid of the Dark","Unit 6: Hiawatha","Unit 7: A Watering Rhyme","Unit 8: Books"],
   "5-हिंदी":["पाठ 1: राख की रस्सी","पाठ 2: फसलों के त्योहार","पाठ 3: खिलौनेवाला","पाठ 4: नन्हा फनकार","पाठ 5: जहाँ चाह वहाँ राह","पाठ 6: चिट्ठी का सफर","पाठ 7: डाकिए की कहानी","पाठ 8: वे दिन भी क्या दिन थे","पाठ 9: एक माँ की बेबसी","पाठ 10: एक दिन की बादशाहत"],
   "5-गणित":["अध्याय 1: मछली उछली","अध्याय 2: आकृतियाँ और कोण","अध्याय 3: कितना-कितना लेंगे","अध्याय 4: हिस्से और पूरे","अध्याय 5: क्षेत्रफल और घेरा","अध्याय 6: क्या तुम बता सकते हो","अध्याय 7: नक्शा","अध्याय 8: दस हजार"],
-  "5-EVS":["पाठ 1: कैसे पहचाना चींटी ने दोस्त","पाठ 2: कहानी सपेरों की","पाठ 3: चखो पता लगाओ","पाठ 4: खाएँ आम बारहों महीने","पाठ 5: बीज, बीज, बीज","पाठ 6: पानी के प्रयोग","पाठ 7: डायरी","पाठ 8: खेल-खेल में"],
   "5-अंग्रेज़ी":["Unit 1: Ice-cream Man","Unit 2: Wonderful Waste","Unit 3: Teamwork","Unit 4: Flying Together","Unit 5: My Elder Brother","Unit 6: Robinson Crusoe","Unit 7: The Lazy Frog","Unit 8: Nobody's Friend"],
   "6-हिंदी":["पाठ 1: वह चिड़िया जो","पाठ 2: बचपन","पाठ 3: नादान दोस्त","पाठ 4: चाँद से थोड़ी-सी गप्पें","पाठ 5: अक्षरों का महत्व","पाठ 6: पार नज़र के","पाठ 7: साथी हाथ बढ़ाना","पाठ 8: ऐसे-ऐसे","पाठ 9: टिकट-अलबम","पाठ 10: झाँसी की रानी"],
   "6-गणित":["अध्याय 1: संख्याओं की जानकारी","अध्याय 2: पूर्ण संख्याएँ","अध्याय 3: संख्याओं के साथ खेलना","अध्याय 4: ज्यामितीय अवधारणाएँ","अध्याय 5: प्रारंभिक आकार","अध्याय 6: पूर्णांक","अध्याय 7: भिन्न","अध्याय 8: दशमलव","अध्याय 9: आँकड़ों का प्रबंधन","अध्याय 10: क्षेत्रमिति","अध्याय 11: बीजगणित","अध्याय 12: अनुपात और समानुपात"],
   "6-विज्ञान":["पाठ 1: भोजन: यह कहाँ से आता है?","पाठ 2: भोजन के घटक","पाठ 3: तंतु से वस्त्र तक","पाठ 4: वस्तुओं के समूह बनाना","पाठ 5: पदार्थों का पृथक्करण","पाठ 6: हमारे चारों ओर के परिवर्तन","पाठ 7: पौधों को जानिए","पाठ 8: शरीर में गति","पाठ 9: सजीव और उनका परिवेश","पाठ 10: गति एवं दूरियों का मापन","पाठ 11: प्रकाश-छायाएँ","पाठ 12: विद्युत तथा परिपथ","पाठ 13: चुंबक","पाठ 14: जल","पाठ 15: वायु","पाठ 16: कचरा-संग्रहण"],
-  "6-सामाजिक विज्ञान":["पाठ 1: क्या, कब, कहाँ और कैसे?","पाठ 2: आरंभिक मानव की खोज","पाठ 3: भोजन: संग्रह से उत्पादन तक","पाठ 4: आरंभिक नगर","पाठ 5: क्या बताती हैं किताबें","पाठ 6: राज्य, राजा और गणराज्य","पाठ 7: नए प्रश्न नए विचार","पाठ 8: अशोक: एक अनोखा सम्राट","पाठ 9: खुशहाल गाँव और शहर","पाठ 10: व्यापारी, राजा और तीर्थयात्री","पाठ 11: नए साम्राज्य","पाठ 12: इमारतें, चित्र और किताबें"],
+  "6-सामाजिक विज्ञान":["⚠️ अध्याय जल्द verified होंगे — अभी पुराना डेटा"],
   "6-अंग्रेज़ी":["Unit 1: Who Did Patrick's Homework","Unit 2: How the Dog Found a Master","Unit 3: Taro's Reward","Unit 4: An Indian-American Woman in Space","Unit 5: A Different Kind of School","Unit 6: Who I Am","Unit 7: Fair Play","Unit 8: A Game of Chance","Unit 9: Desert Animals","Unit 10: The Banyan Tree"],
   "6-संस्कृत":["पाठ 1: शब्द परिचय","पाठ 2: आकारान्त पुल्लिंग","पाठ 3: आकारान्त स्त्रीलिंग","पाठ 4: सर्वनाम","पाठ 5: वचन","पाठ 6: क्रिया","पाठ 7: संज्ञा","पाठ 8: विशेषण"],
   "7-हिंदी":["पाठ 1: हम पंछी उन्मुक्त गगन के","पाठ 2: दादी माँ","पाठ 3: हिमालय की बेटियाँ","पाठ 4: कठपुतली","पाठ 5: मीठाईवाला","पाठ 6: रक्त और हमारा शरीर","पाठ 7: पापा खो गए","पाठ 8: शाम-एक किसान","पाठ 9: चिड़िया की बच्ची","पाठ 10: अपूर्व अनुभव"],
   "7-गणित":["अध्याय 1: पूर्णांक","अध्याय 2: भिन्न एवं दशमलव","अध्याय 3: आँकड़ों का प्रबंधन","अध्याय 4: सरल समीकरण","अध्याय 5: रेखाएँ और कोण","अध्याय 6: त्रिभुज और उसके गुण","अध्याय 7: त्रिभुजों की सर्वांगसमता","अध्याय 8: राशियों की तुलना","अध्याय 9: परिमेय संख्याएँ","अध्याय 10: व्यावहारिक ज्यामिति","अध्याय 11: परिमाप और क्षेत्रफल","अध्याय 12: बीजीय व्यंजक","अध्याय 13: घातांक और घात","अध्याय 14: सममिति","अध्याय 15: ठोस आकारों का चित्रण"],
   "7-विज्ञान":["पाठ 1: पादपों में पोषण","पाठ 2: प्राणियों में पोषण","पाठ 3: रेशों से वस्त्र तक","पाठ 4: ऊष्मा","पाठ 5: अम्ल, क्षारक और लवण","पाठ 6: भौतिक एवं रासायनिक परिवर्तन","पाठ 7: मौसम, जलवायु तथा अनुकूलन","पाठ 8: पवन, तूफान और चक्रवात","पाठ 9: मृदा","पाठ 10: जीवों में श्वसन","पाठ 11: जंतुओं में परिवहन","पाठ 12: पादप में जनन","पाठ 13: गति एवं समय","पाठ 14: विद्युत धारा","पाठ 15: प्रकाश","पाठ 16: जल: एक बहुमूल्य संसाधन","पाठ 17: वन: हमारी जीवन रेखा","पाठ 18: अपशिष्ट जल की कहानी"],
-  "7-सामाजिक विज्ञान":["पाठ 1: हजार वर्षों के परिवर्तन","पाठ 2: नए राजा और राज्य","पाठ 3: दिल्ली के सुलतान","पाठ 4: मुगल साम्राज्य","पाठ 5: शासक और इमारतें","पाठ 6: नगर, व्यापारी और शिल्पीजन","पाठ 7: जनजातियाँ और खानाबदोश","पाठ 8: ईश्वर से अनुराग","पाठ 9: क्षेत्रीय संस्कृतियाँ","पाठ 10: अठारहवीं शताब्दी में राजनीति"],
+  "7-सामाजिक विज्ञान":["⚠️ अध्याय जल्द verified होंगे — अभी पुराना डेटा"],
   "7-अंग्रेज़ी":["Unit 1: Three Questions","Unit 2: A Gift of Chappals","Unit 3: Gopal and the Hilsa Fish","Unit 4: The Ashes That Made Trees Bloom","Unit 5: Quality","Unit 6: Expert Detectives","Unit 7: The Invention of Vita-Wonk","Unit 8: Fire: Friend and Foe","Unit 9: A Bicycle in Good Repair","Unit 10: The Story of Cricket"],
   "7-संस्कृत":["पाठ 1: सुभाषितानि","पाठ 2: दुर्बुद्धि विनश्यति","पाठ 3: स्वावलम्बनम्","पाठ 4: हास्यबालकविसम्मेलनम्","पाठ 5: पण्डिता रमाबाई","पाठ 6: सदाचारः","पाठ 7: संकल्पः सिद्धिदायकः","पाठ 8: त्रिवर्णः ध्वजः"],
   "8-हिंदी":["पाठ 1: ध्वनि","पाठ 2: लाख की चूड़ियाँ","पाठ 3: बस की यात्रा","पाठ 4: दीवानों की हस्ती","पाठ 5: चिट्ठियों की अनूठी दुनिया","पाठ 6: भगवान के डाकिए","पाठ 7: क्या निराश हुआ जाए","पाठ 8: यह सबसे कठिन समय नहीं","पाठ 9: कबीर की साखियाँ","पाठ 10: कामचोर"],
   "8-गणित":["अध्याय 1: परिमेय संख्याएँ","अध्याय 2: एक चर वाले रैखिक समीकरण","अध्याय 3: चतुर्भुजों को समझना","अध्याय 4: आँकड़ों का प्रबंधन","अध्याय 5: वर्गमूल और घनमूल","अध्याय 6: घन और घनमूल","अध्याय 7: राशियों की तुलना","अध्याय 8: बीजीय व्यंजक","अध्याय 9: क्षेत्रमिति","अध्याय 10: घातांक और घात","अध्याय 11: सीधा और प्रतिलोम समानुपात","अध्याय 12: गुणनखंडन","अध्याय 13: आलेखों से परिचय","अध्याय 14: संख्याओं के साथ खेलना"],
   "8-विज्ञान":["पाठ 1: फसल उत्पादन और प्रबंधन","पाठ 2: सूक्ष्मजीव","पाठ 3: संश्लेषित रेशे और प्लास्टिक","पाठ 4: धातु और अधातु","पाठ 5: कोयला और पेट्रोलियम","पाठ 6: दहन और ज्वाला","पाठ 7: पौधों की संरचना","पाठ 8: कोशिका","पाठ 9: जंतुओं में जनन","पाठ 10: किशोरावस्था की ओर","पाठ 11: बल तथा दाब","पाठ 12: घर्षण","पाठ 13: ध्वनि","पाठ 14: विद्युत धारा के रासायनिक प्रभाव","पाठ 15: प्राकृतिक परिघटनाएँ","पाठ 16: प्रकाश","पाठ 17: तारे एवं सौर परिवार","पाठ 18: वायु तथा जल का प्रदूषण"],
-  "8-सामाजिक विज्ञान":["पाठ 1: कैसे, कब और कहाँ","पाठ 2: व्यापार से साम्राज्य तक","पाठ 3: ग्रामीण क्षेत्र पर शासन","पाठ 4: आदिवासी, दिकु और स्वर्ण युग","पाठ 5: जब जनता बगावत करती है","पाठ 6: बुनकर और फैक्ट्री मालिक","पाठ 7: देशी जनता को सभ्य बनाना","पाठ 8: महिलाएँ, जाति एवं सुधार","पाठ 9: राष्ट्रीय आंदोलन का संघटन","पाठ 10: स्वतंत्रता के बाद"],
+
+  /* ===== VERIFIED — Class 8 Samajik Vigyan (web-confirmed, MP State Board own book, NOT NCERT, 24 chapters) ===== */
+  "8-सामाजिक विज्ञान":[
+    "अध्याय 1: भारत में ब्रिटिश सत्ता की स्थापना और विस्तार",
+    "अध्याय 2: ब्रिटिश प्रशासन, नीतियाँ और प्रभाव",
+    "अध्याय 3: ब्रिटिश शासन के विरुद्ध संघर्ष",
+    "अध्याय 4: राष्ट्रीय एकीकरण",
+    "अध्याय 5: हमारे राष्ट्रीय लक्ष्य (अ) राष्ट्रीय लक्ष्यों की प्राप्ति (ब) लोकतन्त्र एवं नागरिक",
+    "अध्याय 6: स्थलमण्डल — स्थल एवं स्थलाकृतियाँ",
+    "अध्याय 7: परिवर्तनकारी बाह्य शक्तियाँ",
+    "अध्याय 8: 1858 ई. के बाद ब्रिटिश प्रशासन और नीतियाँ",
+    "अध्याय 9: धार्मिक व सामाजिक सुधार आन्दोलन और सांस्कृतिक चेतना का विकास",
+    "अध्याय 10–18: (विवरण आवश्यक — आगे verify करना है)",
+    "अध्याय 19: राष्ट्रीय आन्दोलन एवं स्वतन्त्रता प्राप्ति",
+    "अध्याय 20: भारत की विदेश नीति एवं पड़ोसी देशों से सम्बन्ध",
+    "अध्याय 21: भारत और संयुक्त राष्ट्र संघ",
+    "अध्याय 22: विश्व के सम्मुख प्रमुख चुनौतियाँ",
+    "अध्याय 23: ऑस्ट्रेलिया महाद्वीप का भौगोलिक स्वरूप",
+    "अध्याय 24: ऑस्ट्रेलिया महाद्वीप का आर्थिक विकास"
+  ],
+
   "8-अंग्रेज़ी":["Unit 1: The Best Christmas Present","Unit 2: The Tsunami","Unit 3: Glimpses of the Past","Unit 4: Bepin Choudhury's Lapse of Memory","Unit 5: The Summit Within","Unit 6: This is Jody's Fawn","Unit 7: A Visit to Cambridge","Unit 8: A Short Monsoon Diary"],
   "8-संस्कृत":["पाठ 1: सुभाषितानि","पाठ 2: बिलस्य वाणी न कदापि मे श्रुता","पाठ 3: डिजीभारतम्","पाठ 4: सदैव पुरतो निधेहि चरणम्","पाठ 5: कण्टकेनैव कण्टकम्","पाठ 6: गृहं शून्यं सुतां विना","पाठ 7: भारतजनताऽहम्","पाठ 8: संसारसागरस्य नायकाः"],
-  "9-हिंदी":["पाठ 1: दो बैलों की कथा","पाठ 2: ल्हासा की ओर","पाठ 3: उपभोक्तावाद की संस्कृति","पाठ 4: साँवले सपनों की याद","पाठ 5: नाना साहब की पुत्री","पाठ 6: प्रेमचंद के फटे जूते","पाठ 7: मेरे बचपन के दिन","पाठ 8: एक कुत्ता और एक मैना","कविता 1: इस जल प्रलय में","कविता 2: मेघ आए","कविता 3: यमराज की दिशा","कविता 4: चंद्र गहना से लौटती बेर"],
-  "9-गणित":["अध्याय 1: संख्या प्रणाली","अध्याय 2: बहुपद","अध्याय 3: निर्देशांक ज्यामिति","अध्याय 4: दो चर वाले रैखिक समीकरण","अध्याय 5: यूक्लिड की ज्यामिति","अध्याय 6: रेखाएँ और कोण","अध्याय 7: त्रिभुज","अध्याय 8: चतुर्भुज","अध्याय 9: समांतर चतुर्भुजों के क्षेत्रफल","अध्याय 10: वृत्त","अध्याय 11: रचनाएँ","अध्याय 12: हेरोन का सूत्र","अध्याय 13: पृष्ठीय क्षेत्रफल और आयतन","अध्याय 14: सांख्यिकी","अध्याय 15: प्रायिकता"],
-  "9-विज्ञान":["पाठ 1: हमारे आस-पास के पदार्थ","पाठ 2: क्या पदार्थ शुद्ध हैं","पाठ 3: परमाणु एवं अणु","पाठ 4: परमाणु की संरचना","पाठ 5: जीवन की मौलिक इकाई","पाठ 6: ऊतक","पाठ 7: जीवों में विविधता","पाठ 8: गति","पाठ 9: बल तथा गति के नियम","पाठ 10: गुरुत्वाकर्षण","पाठ 11: कार्य तथा ऊर्जा","पाठ 12: ध्वनि","पाठ 13: हम बीमार क्यों होते हैं","पाठ 14: प्राकृतिक संपदा","पाठ 15: खाद्य संसाधनों में सुधार"],
-  "9-सामाजिक विज्ञान":["पाठ 1: फ्रांसीसी क्रांति","पाठ 2: यूरोप में समाजवाद","पाठ 3: नात्सीवाद और हिटलर","पाठ 4: वन्य समाज एवं उपनिवेशवाद","पाठ 5: आधुनिक विश्व में चरवाहे","पाठ 6: किसान और काश्तकार","पाठ 7: भारत में मतदाता आंदोलन","पाठ 8: किसानों की आजीविका","भूगोल 1: भारत-आकार और स्थिति","भूगोल 2: भारत का भौतिक स्वरूप","भूगोल 3: अपवाह","भूगोल 4: जलवायु","भूगोल 5: प्राकृतिक वनस्पति तथा वन्य प्राणी"],
-  "9-अंग्रेज़ी":["Unit 1: The Fun They Had","Unit 2: The Sound of Music","Unit 3: The Little Girl","Unit 4: A Truly Beautiful Mind","Unit 5: The Snake and the Mirror","Unit 6: My Childhood","Unit 7: Packing","Unit 8: Reach for the Top","Unit 9: The Bond of Love","Unit 10: Kathmandu","Unit 11: If I Were You"],
-  "10-हिंदी":["पाठ 1: सूरदास के पद","पाठ 2: राम-लक्ष्मण-परशुराम संवाद","पाठ 3: देव के सवैये","पाठ 4: आत्मकथ्य","पाठ 5: उत्साह / अट नहीं रही","पाठ 6: यह दंतुरित मुसकान","पाठ 7: संगतकार","गद्य 1: नेताजी का चश्मा","गद्य 2: बालगोबिन भगत","गद्य 3: लखनवी अंदाज़","गद्य 4: एक कहानी यह भी","गद्य 5: नौबतखाने में इबादत","गद्य 6: संस्कृति"],
-  "10-गणित":["अध्याय 1: वास्तविक संख्याएँ","अध्याय 2: बहुपद","अध्याय 3: दो चरों वाले रैखिक समीकरण","अध्याय 4: द्विघात समीकरण","अध्याय 5: समांतर श्रेढ़ियाँ","अध्याय 6: त्रिभुज","अध्याय 7: निर्देशांक ज्यामिति","अध्याय 8: त्रिकोणमिति","अध्याय 9: त्रिकोणमिति के अनुप्रयोग","अध्याय 10: वृत्त","अध्याय 11: रचनाएँ","अध्याय 12: वृत्तों से संबंधित क्षेत्रफल","अध्याय 13: पृष्ठीय क्षेत्रफल और आयतन","अध्याय 14: सांख्यिकी","अध्याय 15: प्रायिकता"],
-  "10-विज्ञान":["पाठ 1: रासायनिक अभिक्रियाएँ","पाठ 2: अम्ल, क्षारक एवं लवण","पाठ 3: धातु एवं अधातु","पाठ 4: कार्बन और उसके यौगिक","पाठ 5: तत्वों का आवर्त वर्गीकरण","पाठ 6: जैव प्रक्रम","पाठ 7: नियंत्रण एवं समन्वय","पाठ 8: जीव जनन कैसे करते हैं","पाठ 9: अनुवांशिकता एवं जैव विकास","पाठ 10: प्रकाश-परावर्तन एवं अपवर्तन","पाठ 11: मानव नेत्र","पाठ 12: विद्युत","पाठ 13: विद्युत धारा के चुंबकीय प्रभाव","पाठ 14: ऊर्जा के स्रोत","पाठ 15: हमारा पर्यावरण","पाठ 16: प्राकृतिक संसाधनों का प्रबंधन"],
-  "10-सामाजिक विज्ञान":["पाठ 1: यूरोप में राष्ट्रवाद का उदय","पाठ 2: भारत में राष्ट्रवाद","पाठ 3: भूमंडलीकृत विश्व","पाठ 4: औद्योगिक क्रांति","पाठ 5: मुद्रण संस्कृति","पाठ 6: संसाधन एवं विकास","पाठ 7: वन एवं वन्य जीव","पाठ 8: जल संसाधन","पाठ 9: कृषि","पाठ 10: खनिज तथा ऊर्जा संसाधन","पाठ 11: विनिर्माण उद्योग","पाठ 12: राष्ट्रीय अर्थव्यवस्था की जीवन रेखाएँ","नागरिक 1: सत्ता की साझेदारी","नागरिक 2: संघवाद","नागरिक 3: लोकतंत्र और विविधता"],
-  "10-अंग्रेज़ी":["Unit 1: A Letter to God","Unit 2: Nelson Mandela","Unit 3: Two Stories about Flying","Unit 4: From the Diary of Anne Frank","Unit 5: Glimpses of India","Unit 6: Mijbil the Otter","Unit 7: Madam Rides the Bus","Unit 8: The Sermon at Benares","Unit 9: The Proposal","Unit 10: A Tiger in the Zoo","Unit 11: The Ball Poem","Unit 12: Amanda","Unit 13: Animals","Unit 14: The Trees"]
+  "9-हिंदी":["पाठ 1: दो बैलों की कथा","पाठ 2: ल्हासा की ओर","पाठ 3: उपभोक्तावाद की संस्कृति","पाठ 4: साँवले सपनों की याद","पाठ 5: नाना साहब की पुत्री","पाठ 6: प्रेमचंद के फटे जूते","पाठ 7: मेरे बचपन के दिन","पाठ 8: एक कुत्ता और एक मैना"],
+  "9-गणित":["अध्याय 1: संख्या प्रणाली","अध्याय 2: बहुपद","अध्याय 3: निर्देशांक ज्यामिति","अध्याय 4: दो चर वाले रैखिक समीकरण","अध्याय 5: यूक्लिड की ज्यामिति","अध्याय 6: रेखाएँ और कोण","अध्याय 7: त्रिभुज","अध्याय 8: चतुर्भुज","अध्याय 9: समांतर चतुर्भुजों के क्षेत्रफल","अध्याय 10: वृत्त"],
+  "9-विज्ञान":["पाठ 1: हमारे आस-पास के पदार्थ","पाठ 2: क्या पदार्थ शुद्ध हैं","पाठ 3: परमाणु एवं अणु","पाठ 4: परमाणु की संरचना","पाठ 5: जीवन की मौलिक इकाई","पाठ 6: ऊतक","पाठ 7: जीवों में विविधता","पाठ 8: गति","पाठ 9: बल तथा गति के नियम","पाठ 10: गुरुत्वाकर्षण"],
+  "9-सामाजिक विज्ञान":["⚠️ अध्याय जल्द verified होंगे — अभी पुराना डेटा"],
+  "9-अंग्रेज़ी":["Unit 1: The Fun They Had","Unit 2: The Sound of Music","Unit 3: The Little Girl","Unit 4: A Truly Beautiful Mind","Unit 5: The Snake and the Mirror"],
+  "10-हिंदी":["पाठ 1: सूरदास के पद","पाठ 2: राम-लक्ष्मण-परशुराम संवाद","पाठ 3: देव के सवैये","पाठ 4: आत्मकथ्य","गद्य 1: नेताजी का चश्मा","गद्य 2: बालगोबिन भगत"],
+  "10-गणित":["अध्याय 1: वास्तविक संख्याएँ","अध्याय 2: बहुपद","अध्याय 3: दो चरों वाले रैखिक समीकरण","अध्याय 4: द्विघात समीकरण","अध्याय 5: समांतर श्रेढ़ियाँ"],
+  "10-विज्ञान":["पाठ 1: रासायनिक अभिक्रियाएँ","पाठ 2: अम्ल, क्षारक एवं लवण","पाठ 3: धातु एवं अधातु","पाठ 4: कार्बन और उसके यौगिक"],
+  "10-सामाजिक विज्ञान":["⚠️ अध्याय जल्द verified होंगे — अभी पुराना डेटा"],
+  "10-अंग्रेज़ी":["Unit 1: A Letter to God","Unit 2: Nelson Mandela","Unit 3: Two Stories about Flying","Unit 4: From the Diary of Anne Frank"]
 };
 
-var SYSTEM_CORE = 'You are Rishi, an expert teacher mentor for rural Narmada Valley MP schools. Every response must be immediately usable in a village classroom. Always include: local Narmada Valley context (Narmada river, Satpura forests, Gond/Baiga community, Hoshangabad market, farming/paddy/maize, monsoon), practical activities using only stones/sticks/leaves/fingers/blackboard/chalk, differentiation for weak/average/strong learners, and real-life application. Never use jargon. Respond in Hindi primarily. Activities must pass Monday Morning Test: can a first-year teacher in Mohgaon do this at 9AM with zero prep?';
+/* ============================================================
+   CHAPTER BRIEFS — real ground-truth content per chapter, so
+   generation works FROM ACTUAL CONTENT, not from guessing off
+   a title alone. Only built for VERIFIED chapters so far.
+   Format: "Class-Subject||Chapter prefix" : "brief text"
+   ============================================================ */
+var CHAPTER_BRIEF = {
+  "मेरा परिवार और मित्र": "परिवार के सदस्यों के नाम, रिश्ते, और दोस्तों के साथ समय बिताने पर आधारित पाठ। बच्चे अपने घर के सदस्यों और दोस्तों की पहचान करना सीखते हैं।",
+  "मेले में हम": "गाँव/शहर के मेले का अनुभव — मेले में मिलने वाली चीज़ें, खेल, खाना, और सामूहिक भागीदारी की भावना।",
+  "त्योहार मनाएँ एक साथ": "विभिन्न त्योहारों (होली, ईद, दिवाली, क्रिसमस आदि) को मिलकर मनाने और सबकी भागीदारी पर ज़ोर।",
+  "कुछ खोज पेड़-पौधों की": "आस-पास के पेड़-पौधों की पहचान, उनके भाग (जड़, तना, पत्ती), और निरीक्षण गतिविधि आधारित पाठ।",
+  "पेड़-पौधे और पशु-पक्षी हैं साथ": "पेड़-पौधों और जानवरों के बीच के संबंध — कौन किस पर निर्भर है, खाद्य श्रृंखला का प्रारंभिक परिचय।",
+  "निर्भरता एक-दूसरे पर": "मनुष्य, पशु, और पौधों की एक-दूसरे पर निर्भरता — पारिस्थितिकी तंत्र की बुनियादी समझ।",
+  "पानी है अनमोल": "पानी के स्रोत, उपयोग, और बचाव — पानी की कमी और संरक्षण की आवश्यकता।",
+  "हमारा भोजन": "विभिन्न प्रकार के भोजन, संतुलित आहार, और भोजन कहाँ से आता है इसकी समझ।",
+  "स्वस्थ रहो, प्रसन्न रहो": "स्वच्छता, व्यायाम, और मानसिक खुशी से जुड़ी आदतें — स्वास्थ्य की समग्र समझ।",
+  "वस्तुओं की दुनिया": "रोज़मर्रा की वस्तुओं के प्रकार, उनके उपयोग, और वर्गीकरण।",
+  "कैसे बनीं ये वस्तुएँ": "वस्तुएँ किस सामग्री से और कैसे बनती हैं — सरल निर्माण प्रक्रिया का परिचय।",
+  "क्या और कैसे करें इसका": "वस्तुओं के पुनः उपयोग, मरम्मत, और सही निपटान पर केंद्रित — रीसाइक्लिंग की प्रारंभिक समझ।",
+
+  "मिलकर साथ रहना": "सामुदायिक जीवन, सहयोग, और मिलकर रहने के मूल्यों पर आधारित — पड़ोस और समुदाय की भावना।",
+  "अपने परिवेश को जानना": "अपने आस-पास के वातावरण — घर, गली, मोहल्ले की पहचान और जानकारी इकट्ठा करने की गतिविधि।",
+  "प्रकृति की पाठशाला": "प्रकृति से सीखने के उदाहरण — जानवरों और पौधों के व्यवहार से मिलने वाली शिक्षा।",
+  "प्रकृति की गोद में": "जंगल, पहाड़, नदी जैसे प्राकृतिक स्थानों का वर्णन और उनके महत्व की समझ।",
+  "स्वास्थ्य के लिए भोजन": "पोषण, संतुलित आहार के घटक, और भोजन का स्वास्थ्य पर प्रभाव।",
+  "वस्तुएँ कैसे कार्य करती हैं": "मशीनों और औज़ारों के पीछे के सरल सिद्धांत — बल, गति, ऊर्जा का प्रारंभिक परिचय।",
+  "वस्तुओं का निर्माण": "कच्चे माल से तैयार वस्तु बनने की प्रक्रिया — कारखाने और हस्तशिल्प दोनों।",
+  "जैसा देश, वैसा भेष": "भारत के विभिन्न क्षेत्रों की वेशभूषा, भोजन, और जीवनशैली में विविधता।",
+  "हमारा आकाश": "सूरज, चाँद, तारे, और मौसम से जुड़ी आकाश की प्रारंभिक खगोलीय समझ।",
+
+  "जल — जीवन का आधार": "पानी का जीवन में महत्व, जल चक्र का परिचय, और जल संरक्षण की आवश्यकता।",
+  "एक नदी की यात्रा": "नदी के स्रोत से समुद्र तक की यात्रा — रास्ते में आने वाले स्थान, उपयोग, और पारिस्थितिकी।",
+  "भोजन का रहस्य": "भोजन के पाचन की प्रारंभिक समझ और विभिन्न खाद्य पदार्थों के पोषक तत्व।",
+  "हमारा विद्यालय — एक आनंदमय स्थान": "विद्यालय में सीखने के अलग-अलग तरीके, शिक्षकों और साथियों के साथ संबंध।",
+  "हमारा जीवंत देश": "भारत की भौगोलिक और सांस्कृतिक विविधता — विभिन्न राज्यों की विशेषताएँ।",
+  "कुछ अनूठे स्थान": "भारत के विशेष/अनोखे भौगोलिक या सांस्कृतिक स्थलों का परिचय।",
+  "ऊर्जा — वस्तुएँ कैसे कार्य करती हैं": "ऊर्जा के स्रोत और रूप — विद्युत, यांत्रिक, और इनके रोज़मर्रा उपयोग।",
+  "वस्त्र — वस्तुएँ कैसे निर्मित होती हैं": "कपड़ा बनने की प्रक्रिया — रेशे से वस्त्र तक, हथकरघा और मशीन दोनों संदर्भ।",
+  "प्रकृति की लय": "मौसम, ऋतु परिवर्तन, और प्रकृति में पाए जाने वाले चक्रीय पैटर्न।",
+  "पृथ्वी — हम सबका घर": "पृथ्वी की संरचना, संसाधन, और पर्यावरण संरक्षण की ज़िम्मेदारी।",
+
+  "भारत में ब्रिटिश सत्ता की स्थापना और विस्तार": "ईस्ट इंडिया कंपनी का आगमन, प्रमुख युद्ध (प्लासी, बक्सर), और धीरे-धीरे भारत में ब्रिटिश सत्ता का विस्तार।",
+  "ब्रिटिश प्रशासन, नीतियाँ और प्रभाव": "ब्रिटिश शासन की प्रशासनिक नीतियाँ — भू-व्यवस्था, कर प्रणाली, और भारतीय समाज पर इनका प्रभाव।",
+  "ब्रिटिश शासन के विरुद्ध संघर्ष": "1857 के विद्रोह और उससे पहले/बाद के प्रतिरोध आंदोलनों का विवरण।",
+  "राष्ट्रीय एकीकरण": "स्वतंत्रता के बाद रियासतों का भारत में विलय और राष्ट्रीय एकता की प्रक्रिया।",
+  "स्थलमण्डल — स्थल एवं स्थलाकृतियाँ": "पृथ्वी की स्थलाकृतियाँ — पहाड़, मैदान, पठार — इनकी संरचना और निर्माण प्रक्रिया।",
+  "1858 ई. के बाद ब्रिटिश प्रशासन और नीतियाँ": "1857 के बाद सीधे ब्रिटिश क्राउन के अधीन प्रशासन और नई नीतियाँ।",
+  "धार्मिक व सामाजिक सुधार आन्दोलन और सांस्कृतिक चेतना का विकास": "राजा राममोहन राय, स्वामी दयानंद जैसे सुधारकों के आंदोलन और सामाजिक जागृति।",
+  "राष्ट्रीय आन्दोलन एवं स्वतन्त्रता प्राप्ति": "स्वतंत्रता संग्राम के प्रमुख चरण — असहयोग, सविनय अवज्ञा, भारत छोड़ो आंदोलन — और 1947 की स्वतंत्रता।",
+  "भारत की विदेश नीति एवं पड़ोसी देशों से सम्बन्ध": "स्वतंत्र भारत की विदेश नीति के सिद्धांत और पड़ोसी देशों के साथ संबंध।",
+  "भारत और संयुक्त राष्ट्र संघ": "संयुक्त राष्ट्र संघ की भूमिका और भारत की इसमें सहभागिता।",
+  "विश्व के सम्मुख प्रमुख चुनौतियाँ": "वैश्विक समस्याएँ — गरीबी, पर्यावरण क्षरण, असमानता आदि।",
+  "ऑस्ट्रेलिया महाद्वीप का भौगोलिक स्वरूप": "ऑस्ट्रेलिया की भौगोलिक विशेषताएँ — जलवायु, भू-आकृति, प्राकृतिक संसाधन।",
+  "ऑस्ट्रेलिया महाद्वीप का आर्थिक विकास": "ऑस्ट्रेलिया की अर्थव्यवस्था — कृषि, खनन, उद्योग का विकास।"
+};
+
+function getBriefFor(chapterText){
+  for(var key in CHAPTER_BRIEF){
+    if(chapterText.indexOf(key) !== -1) return CHAPTER_BRIEF[key];
+  }
+  return null;
+}
+
+/* ============================================================
+   SYSTEM CORE — rewritten per teacher feedback:
+   - 65% real textbook content / 35% local-life example (NOT the
+     reverse, and NOT Narmada/Hoshangabad in every single output)
+   - Local/regional flavour is now LIGHT SEASONING, optional,
+     never forced into every section
+   - When a CHAPTER_BRIEF exists, it is passed as ground truth and
+     the model is told NOT to invent beyond it
+   ============================================================ */
+var SYSTEM_BASE = 'You are Rishi, an expert teacher mentor for MP Board government school teachers. CRITICAL RULE: Roughly 65% of every response must be DIRECT, ACCURATE textbook content for the specific chapter given (real concepts, real terms, real in-book exercise style) — and only about 35% should be local/real-life examples or applications. Do NOT default to Narmada river, Hoshangabad, or Gond/Baiga references unless the teacher explicitly asks for local context or the chapter topic genuinely calls for it (e.g. a chapter on rivers). Local flavour is an occasional seasoning, not a mandatory ingredient. Activities must use only stones/sticks/leaves/fingers/blackboard/chalk — but the CONTENT must be textbook-accurate first. Include differentiation for weak/average/strong learners. Never use jargon. Respond in Hindi primarily. Activities must pass Monday Morning Test: can a first-year teacher do this at 9AM with zero prep?';
 
 // SETUP LOGIC
 function sel(type, val, el){
@@ -344,6 +487,8 @@ function buildSubjects(){
   document.getElementById('n3').classList.add('on');
   (SUBJECTS[String(S.cls)]||[]).forEach(function(s){
     var b=document.createElement('button'); b.className='chip'; b.textContent=s;
+    var key = S.cls+'-'+s;
+    if(VERIFIED_KEYS.indexOf(key) !== -1) b.classList.add('verified');
     b.onclick=function(){
       S.subject=s; S.chapter=null;
       document.querySelectorAll('#subj-row .chip').forEach(function(x){x.classList.remove('on')});
@@ -355,7 +500,14 @@ function buildSubjects(){
 function buildChapters(){
   var list=document.getElementById('ch-list'); list.innerHTML='';
   document.getElementById('n4').classList.add('on');
-  var chs=CHAPTERS[S.cls+'-'+S.subject]||[];
+  var key = S.cls+'-'+S.subject;
+  var chs=CHAPTERS[key]||[];
+  var banner = document.getElementById('verified-banner');
+  if(VERIFIED_KEYS.indexOf(key) !== -1){
+    banner.innerHTML = '<div class="verified-note">✓ यह विषय वास्तविक पाठ्यपुस्तक से verified है</div>';
+  } else {
+    banner.innerHTML = '<div class="verified-note" style="color:#b88;background:rgba(200,100,80,0.08);border-color:rgba(200,100,80,0.25)">⚠️ यह सूची अभी पूरी तरह verify नहीं हुई — सावधानी से उपयोग करें</div>';
+  }
   if(!chs.length){list.innerHTML='<span class="locked">अध्याय जल्द उपलब्ध होंगे</span>';return;}
   chs.forEach(function(ch,i){
     var b=document.createElement('button'); b.className='ch-item';
@@ -381,9 +533,31 @@ function updateGen(){
     S.board+' · कक्षा '+S.cls+' · '+S.subject+' · '+S.chapter.substring(0,25)+'...':'';
 }
 
+// FREE TOPIC MODE
+function ftFill(text){
+  document.getElementById('ft-input').value = text;
+}
+
+function openFreeTopic(){
+  var topic = document.getElementById('ft-input').value.trim();
+  if(!topic){ document.getElementById('ft-input').focus(); return; }
+  WS = {subject:'स्वतंत्र विषय', chapter:topic, cls:'—', board:'—', context:[], isFreeTopic:true};
+  tabLoaded = {};
+  rishiMsgs = [];
+  document.getElementById('ws-title').textContent = '💭 ' + topic;
+  document.getElementById('ws-sub').textContent = 'स्वतंत्र विषय चर्चा';
+  document.querySelectorAll('.tab-pane').forEach(function(p){p.innerHTML='';p.classList.remove('active')});
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active')});
+  document.querySelector('.tab').classList.add('active');
+  document.getElementById('pane-overview').classList.add('active');
+  document.getElementById('workspace').classList.add('show');
+  document.getElementById('ask-rishi-btn').classList.add('show');
+  loadTab('overview');
+}
+
 // WORKSPACE
 function openWorkspace(){
-  WS = {subject:S.subject, chapter:S.chapter, cls:S.cls, board:S.board, context:S.context.slice()};
+  WS = {subject:S.subject, chapter:S.chapter, cls:S.cls, board:S.board, context:S.context.slice(), isFreeTopic:false};
   tabLoaded = {};
   rishiMsgs = [];
   document.getElementById('ws-title').textContent = S.subject+' — '+S.chapter.substring(0,30);
@@ -398,7 +572,7 @@ function openWorkspace(){
 }
 
 function quickWS(subj, chap){
-  WS = {subject:subj, chapter:chap, cls:'1-10', board:'Mrida', context:[]};
+  WS = {subject:subj, chapter:chap, cls:'1-10', board:'Mrida', context:[], isFreeTopic:false};
   tabLoaded = {};
   rishiMsgs = [];
   document.getElementById('ws-title').textContent = subj+' — '+chap;
@@ -431,19 +605,23 @@ function loadTab(name){
   pane.innerHTML = '<div class="ws-loading"><div class="ldots"><div class="ld" style="animation-delay:0s"></div><div class="ld" style="animation-delay:.2s"></div><div class="ld" style="animation-delay:.4s"></div></div><div class="ws-loading-text">ऋषि तैयार कर रहा है...</div></div>';
   tabLoaded[name] = true;
 
-  var ctx = WS.context.length ? 'Classroom context: '+WS.context.join(', ') : 'Blackboard only, zero prep, rural village school';
-  var base = SYSTEM_CORE+'\n\nClass: '+WS.cls+'\nSubject: '+WS.subject+'\nChapter: '+WS.chapter+'\n'+ctx;
+  var ctx = WS.context && WS.context.length ? 'Classroom context: '+WS.context.join(', ') : 'Blackboard only, zero prep, rural village school';
+  var brief = getBriefFor(WS.chapter);
+  var briefLine = brief ? ('\n\nGROUND TRUTH for this chapter (use this as the factual base — do not invent beyond it, expand on it accurately): '+brief) : '';
+  var freeTopicNote = WS.isFreeTopic ? '\n\nNOTE: This is a FREE TOPIC discussion, not tied to any chapter. Generate general, age-flexible teaching content on this topic directly — mention that the teacher can adapt the depth based on the class they are teaching.' : '';
+
+  var base = SYSTEM_BASE+'\n\nClass: '+WS.cls+'\nSubject: '+WS.subject+'\nChapter/Topic: '+WS.chapter+'\n'+ctx+briefLine+freeTopicNote;
 
   var prompts = {
-    overview: base+'\n\nGenerate a CHAPTER OVERVIEW for the teacher. Include:\n1. अध्याय सारांश (2-3 sentences)\n2. मुख्य अवधारणाएं (3-4 key concepts as bullet points)\n3. सीखने के उद्देश्य (2-3 clear objectives)\n4. पूर्व ज्ञान (what students already know)\n5. सामान्य भ्रांतियां (2-3 common misconceptions)\n6. अनुमानित समय (lesson duration)\n7. नर्मदा घाटी संबंध (local connection)\n\nFormat clearly with Hindi headings. Be concise.',
+    overview: base+'\n\nGenerate a CHAPTER OVERVIEW for the teacher. Remember the 65/35 rule: mostly real textbook content, occasional local example. Include:\n1. अध्याय सारांश (2-3 sentences — accurate to actual content)\n2. मुख्य अवधारणाएं (3-4 key concepts as bullet points — real terms from the chapter)\n3. सीखने के उद्देश्य (2-3 clear objectives)\n4. पूर्व ज्ञान (what students already know)\n5. सामान्य भ्रांतियां (2-3 common misconceptions)\n6. अनुमानित समय (lesson duration)\n7. एक स्थानीय उदाहरण (ONE local/real-life connection — optional, only if natural)\n\nFormat clearly with Hindi headings. Be concise.',
 
-    teach: base+'\n\nGenerate a COMPLETE LESSON FLOW with these sections:\n\n1. प्रारंभिक गतिविधि (Hook - 5 min): Opening that connects to student daily life\n2. अवधारणा परिचय (Intro - 10 min): Teacher Says / Teacher Does / Students Do\n3. निर्देशित अभ्यास (Guided Practice - 10 min): Teacher Says / Teacher Does / Students Do\n4. स्वतंत्र अभ्यास (Practice - 10 min): Students work independently with local materials\n5. चर्चा (Reflection - 5 min): Discussion questions\n6. समापन (Closure - 5 min): Exit activity\n\nFor each section: exact teacher words, specific student actions, materials (stones/sticks/leaves/fingers/blackboard only). Include differentiation: कमज़ोर/सामान्य/तेज़.',
+    teach: base+'\n\nGenerate a COMPLETE LESSON FLOW with these sections:\n\n1. प्रारंभिक गतिविधि (Hook - 5 min)\n2. अवधारणा परिचय (Intro - 10 min): Teacher Says / Teacher Does / Students Do — based on REAL chapter content\n3. निर्देशित अभ्यास (Guided Practice - 10 min)\n4. स्वतंत्र अभ्यास (Practice - 10 min): using local materials\n5. चर्चा (Reflection - 5 min)\n6. समापन (Closure - 5 min)\n\nFor each section: exact teacher words, specific student actions, materials (stones/sticks/leaves/fingers/blackboard only). Include differentiation: कमज़ोर/सामान्य/तेज़. Keep the 65% textbook content / 35% local example balance.',
 
-    assess: base+'\n\nGenerate ASSESSMENT questions and tools:\n\n1. मौखिक प्रश्न (5 oral questions - easy to hard)\n2. लिखित प्रश्न (5 written questions - suitable for village school)\n3. अनुप्रयोग प्रश्न (3 application questions connecting to local life)\n4. उच्च स्तरीय प्रश्न (2 higher-order thinking questions)\n5. Exit Ticket (1 quick check question)\n6. सफलता के संकेत (what does understanding look like?)\n7. भ्रम के संकेत (what does confusion look like?)\n\nAll questions in Hindi. Practical for village classroom.',
+    assess: base+'\n\nGenerate ASSESSMENT questions based on REAL chapter content, similar in style to actual textbook exercise questions:\n\n1. मौखिक प्रश्न (5 oral questions - easy to hard)\n2. लिखित प्रश्न (5 written questions - matching textbook exercise style)\n3. अनुप्रयोग प्रश्न (3 application questions)\n4. उच्च स्तरीय प्रश्न (2 higher-order thinking questions)\n5. Exit Ticket (1 quick check question)\n6. सफलता के संकेत\n7. भ्रम के संकेत\n\nAll questions in Hindi.',
 
-    support: base+'\n\nGenerate SUPPORT STRATEGIES for these situations (label each clearly):\n\n🔴 बच्चे नहीं समझ रहे: Alternative explanation using different local example\n👥 मिश्रित क्षमता कक्षा: How to run same lesson for different levels\n🏫 बड़ी कक्षा (40+): Managing large group effectively  \n📚 कमज़ोर पाठक: Activity-based approach without reading\n🎮 और गतिविधि चाहिए: 2 additional hands-on activities\n💡 सरल उदाहरण: Simpler local example for this concept\n🌿 स्थानीय उदाहरण: More specific Narmada Valley examples\n\nEach response: 3-4 practical sentences only.',
+    support: base+'\n\nGenerate SUPPORT STRATEGIES for these situations (label each clearly):\n\n🔴 बच्चे नहीं समझ रहे: Alternative explanation, textbook-accurate\n👥 मिश्रित क्षमता कक्षा: How to run same lesson for different levels\n🏫 बड़ी कक्षा (40+): Managing large group effectively  \n📚 कमज़ोर पाठक: Activity-based approach without reading\n🎮 और गतिविधि चाहिए: 2 additional hands-on activities\n💡 सरल उदाहरण: Simpler explanation for this concept\n🌿 स्थानीय उदाहरण: ONE specific local example (optional)\n\nEach response: 3-4 practical sentences only.',
 
-    resources: base+'\n\nGenerate TEACHING RESOURCES:\n\n1. गृहकार्य (Homework): 3-4 practical tasks using home/village objects\n2. प्रश्न पत्र (Quiz): 5 questions suitable for village school\n3. Blackboard Plan: Exact layout - what to write where\n4. समूह गतिविधि (Group Activity): 1 collaborative activity\n5. अभिभावक गतिविधि (Parent Activity): Simple family engagement\n6. YouTube खोज (Search terms): 3 specific Hindi search terms for relevant videos on this topic (format: "Search: [term]")\n\nAll practical and immediately usable.'
+    resources: base+'\n\nGenerate TEACHING RESOURCES:\n\n1. गृहकार्य (Homework): 3-4 practical tasks\n2. प्रश्न पत्र (Quiz): 5 questions matching textbook style\n3. Blackboard Plan: Exact layout\n4. समूह गतिविधि (Group Activity)\n5. अभिभावक गतिविधि (Parent Activity)\n6. YouTube खोज (Search terms): 3 specific Hindi search terms (format: "Search: [term]")\n\nAll practical and immediately usable.'
   };
 
   callAPI(prompts[name], function(text){
@@ -455,7 +633,6 @@ function renderTabContent(name, text){
   var pane = document.getElementById('pane-'+name);
 
   if(name === 'support'){
-    // Support tab has buttons + responses
     var sections = ['🔴 बच्चे नहीं समझ रहे','👥 मिश्रित क्षमता कक्षा','🏫 बड़ी कक्षा (40+)','📚 कमज़ोर पाठक','🎮 और गतिविधि','💡 सरल उदाहरण','🌿 स्थानीय उदाहरण'];
     var btns = sections.map(function(s){
       return '<button class="sup-btn" onclick="showSupport(this,\''+s+'\')">'+s+'</button>';
@@ -469,12 +646,12 @@ function renderTabContent(name, text){
   }
 
   if(name === 'resources'){
-    // Extract YouTube search terms and create links
     var ytSection = '<div class="ws-card"><div class="ws-card-header" style="background:#ff0000">▶ YouTube — वीडियो खोजें</div><div style="padding:.3rem 0">';
+    var chapterClean = WS.chapter.replace(/पाठ \d+: |अध्याय \d+: |Unit \d+: |इकाई.*?\/ /,'').substring(0,30);
     var searchTerms = [
-      WS.subject+' '+WS.chapter.replace(/पाठ \d+: |अध्याय \d+: |Unit \d+: /,'').substring(0,30)+' hindi',
-      'class '+WS.cls+' '+WS.subject+' '+WS.chapter.replace(/पाठ \d+: |अध्याय \d+: |Unit \d+: /,'').substring(0,20),
-      WS.chapter.replace(/पाठ \d+: |अध्याय \d+: |Unit \d+: /,'').substring(0,30)+' activity children'
+      WS.subject+' '+chapterClean+' hindi',
+      'class '+WS.cls+' '+WS.subject+' '+chapterClean.substring(0,20),
+      chapterClean+' activity children'
     ];
     searchTerms.forEach(function(term){
       var url = 'https://www.youtube.com/results?search_query='+encodeURIComponent(term);
@@ -483,14 +660,12 @@ function renderTabContent(name, text){
     ytSection += '</div></div>';
 
     var websiteSection = '<div class="ws-card"><div class="ws-card-header" style="background:#1565c0">🌐 उपयोगी वेबसाइटें</div><div style="padding:.3rem 0">'
-      +'<a class="yt-card" href="https://ncert.nic.in/textbook.php" target="_blank"><div class="yt-icon" style="background:#1565c0">📚</div><div class="yt-info"><div class="yt-title">NCERT पाठ्यपुस्तकें</div><div class="yt-sub">ncert.nic.in — सभी कक्षाओं की किताबें</div></div></a>'
+      +'<a class="yt-card" href="https://mptbc.mp.gov.in" target="_blank"><div class="yt-icon" style="background:#2e7d32">MP</div><div class="yt-info"><div class="yt-title">MP Text Book Corporation</div><div class="yt-sub">mptbc.mp.gov.in — असली पाठ्यपुस्तकें</div></div></a>'
       +'<a class="yt-card" href="https://diksha.gov.in" target="_blank"><div class="yt-icon" style="background:#ff6f00">🎓</div><div class="yt-info"><div class="yt-title">DIKSHA — Digital Platform</div><div class="yt-sub">diksha.gov.in — पाठ सामग्री और वीडियो</div></div></a>'
       +'<a class="yt-card" href="https://www.khanacademy.org/math?lang=hi" target="_blank"><div class="yt-icon" style="background:#14BF96">K</div><div class="yt-info"><div class="yt-title">Khan Academy Hindi</div><div class="yt-sub">गणित और विज्ञान — हिंदी में</div></div></a>'
-      +'<a class="yt-card" href="https://mpbse.nic.in" target="_blank"><div class="yt-icon" style="background:#2e7d32">MP</div><div class="yt-info"><div class="yt-title">MP Board</div><div class="yt-sub">mpbse.nic.in — MP Board resources</div></div></a>'
-      +'<a class="yt-card" href="https://www.youtube.com/@LearnWithOliver" target="_blank"><div class="yt-icon" style="background:#ff0000">▶</div><div class="yt-info"><div class="yt-title">Hindi Medium YouTube</div><div class="yt-sub">हिंदी माध्यम पाठ वीडियो</div></div></a>'
+      +'<a class="yt-card" href="https://mpbse.nic.in" target="_blank"><div class="yt-icon" style="background:#2e7d32">MP</div><div class="yt-info"><div class="yt-title">MP Board (MPBSE)</div><div class="yt-sub">mpbse.nic.in</div></div></a>'
       +'</div></div>';
 
-    // Extract extra YouTube terms from AI response
     var ytMatches = text.match(/Search: ([^\n]+)/g);
     if(ytMatches && ytMatches.length){
       ytMatches.forEach(function(m){
@@ -521,7 +696,9 @@ function showSupport(btn, situation){
   var respDiv = document.getElementById('support-response');
   respDiv.innerHTML = '<div class="ws-loading" style="min-height:80px"><div class="ldots"><div class="ld"></div><div class="ld" style="animation-delay:.2s"></div><div class="ld" style="animation-delay:.4s"></div></div></div>';
 
-  var prompt = SYSTEM_CORE+'\n\nClass: '+WS.cls+'\nSubject: '+WS.subject+'\nChapter: '+WS.chapter+'\n\nTeacher situation: '+situation+'\n\nProvide specific, practical help for this situation in 4-5 sentences. Hindi only. Actionable immediately.';
+  var brief = getBriefFor(WS.chapter);
+  var briefLine = brief ? ('\nGROUND TRUTH: '+brief) : '';
+  var prompt = SYSTEM_BASE+'\n\nClass: '+WS.cls+'\nSubject: '+WS.subject+'\nChapter: '+WS.chapter+briefLine+'\n\nTeacher situation: '+situation+'\n\nProvide specific, practical help for this situation in 4-5 sentences. Hindi only. Actionable immediately.';
 
   callAPI(prompt, function(text){
     btn.classList.remove('loading');
@@ -545,7 +722,9 @@ function sendRishi(){
   var lm=document.createElement('div'); lm.className='rm-thinking'; lm.id='rl'; lm.textContent='सोच रहा हूँ...'; msgs.appendChild(lm);
   msgs.scrollTop=msgs.scrollHeight;
 
-  var context = SYSTEM_CORE+'\nClass: '+WS.cls+'\nSubject: '+WS.subject+'\nChapter: '+WS.chapter+'\nAnswer in Hindi. Practical. 3-5 sentences max.';
+  var brief = getBriefFor(WS.chapter);
+  var briefLine = brief ? ('\nGROUND TRUTH: '+brief) : '';
+  var context = SYSTEM_BASE+'\nClass: '+WS.cls+'\nSubject: '+WS.subject+'\nChapter: '+WS.chapter+briefLine+'\nAnswer in Hindi. Practical. 3-5 sentences max.';
 
   if(rishiMsgs.length === 0){
     rishiMsgs.push({role:'user', content: context+'\n\nTeacher question: '+text});
@@ -565,7 +744,6 @@ function sendRishi(){
       var rm=document.createElement('div'); rm.className='rm-rishi'; rm.textContent=reply;
       msgs.appendChild(rm); msgs.scrollTop=msgs.scrollHeight;
     } else {
-      var lel2=document.getElementById('rl'); if(lel2) lel2.remove();
       var em=document.createElement('div'); em.className='rm-thinking'; em.textContent='कुछ गड़बड़ हुई — दोबारा कोशिश करें।';
       msgs.appendChild(em);
     }
@@ -595,4 +773,4 @@ function callAPI(prompt, cb){
 }
 </script>
 </body>
-</html>
+      </html>
